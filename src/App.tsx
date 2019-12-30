@@ -13,7 +13,7 @@ const App: React.FC = () => {
     <Container>
       <h1>Oscars 2020 SPA</h1>
     </Container>
-  );
+  )
 }
 
 export default App
