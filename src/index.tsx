@@ -7,8 +7,15 @@ import { HttpLink } from 'apollo-link-http'
 import App from './App'
 import './index.css'
 
+let apiBase
+if (location.host.match('localhost')) {
+  apiBase = 'http://localhost:3001/'
+} else {
+  apiBase = 'http://oscars.alexmarchant.com/'
+}
+
 const cache = new InMemoryCache()
-const link = new HttpLink({ uri: 'http://localhost:3001/' })
+const link = new HttpLink({ uri: apiBase })
 const client = new ApolloClient({
   cache,
   link,
