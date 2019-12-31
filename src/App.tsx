@@ -1,12 +1,13 @@
 import React from 'react'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery, useMutation } from '@apollo/react-hooks'
 import styled from 'styled-components'
 import gql from 'graphql-tag'
 
 const Code = styled.pre`
-  border: 1px solid #333;
-  background-color: #ddd;
+  border: 1px solid #bbb;
+  background-color: #eee;
   padding: 10px;
+  border-radius: 3px;
 `
 
 const getEverythingQueryString = `query GetEverything {
@@ -30,8 +31,18 @@ const GET_EVERYTHING = gql`
   }
 `
 
+const incrementMutationString = `mutation Increment {
+  incrementCounter
+}`
+const INCREMENT_COUNTER = gql`
+  mutation Increment {
+    incrementCounter
+  }
+`
+
 const App: React.FC = () => {
   const { data, loading, error } = useQuery(GET_EVERYTHING)
+  const [ incrementCounter, incrementCounterResult ] = useMutation(INCREMENT_COUNTER)
   if (loading) return <p>LOADING</p>
   if (error) return <p>ERROR</p>
 
@@ -45,15 +56,15 @@ const App: React.FC = () => {
       <Code>{dataString}</Code>
       <hr></hr>
       <strong>Mutation:</strong>
-      <Code></Code>
+      <Code>{incrementMutationString}</Code>
       <strong>Trigger Mutation:</strong>
       <br></br>
       <br></br>
-      <button>Increment</button>
+      <button onClick={(): void => { incrementCounter() }}>Increment</button>
       <br></br>
       <br></br>
       <strong>Result</strong>
-      <Code>{data.counter}</Code>
+      <Code>{incrementCounterResult?.data?.incrementCounter ?? data.counter}</Code>
     </div>
   )
 }
