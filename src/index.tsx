@@ -8,7 +8,7 @@ import App from './App'
 import './index.css'
 
 let apiBase
-if (location.host.match('localhost')) {
+if (window.location.host.match('localhost')) {
   apiBase = 'http://localhost:3001/'
 } else {
   apiBase = 'http://oscars.alexmarchant.com/'
