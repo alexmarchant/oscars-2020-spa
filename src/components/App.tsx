@@ -16,7 +16,12 @@ const App: React.FC = () => {
   }, [token])
 
   if (token) {
-    return <Ballot />
+    return (
+      <div>
+        <Ballot />
+        <button onClick={() => setToken(null)}>Log Out</button>
+      </div>
+    )
   } else {
     return <Auth setToken={setToken} />
   }
