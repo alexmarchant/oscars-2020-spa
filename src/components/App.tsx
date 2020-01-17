@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Auth from './Auth'
 import Ballot from './Ballot'
 
-const loggedIn = false
-
 const App: React.FC = () => {
-  if (!loggedIn) {
-    return <Auth />
-  } else {
+  const [token, setToken] = useState<string | null | undefined>()
+
+  if (token) {
     return <Ballot />
+  } else {
+    return <Auth setToken={setToken} />
   }
 }
 
