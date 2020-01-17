@@ -1,40 +1,15 @@
 import React from 'react'
-import styled from 'styled-components'
-import { useQuery, gql } from '@apollo/client'
+import Auth from './Auth'
+import Ballot from './Ballot'
 
-const Container = styled.div`
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-const GET_USERS = gql`
-  {
-    users {
-      name
-    }
-  }
-`
-
-interface GetUsersResponse {
-  users: {
-    name: string
-  }
-}
+const loggedIn = false
 
 const App: React.FC = () => {
-  const { loading, error, data } = useQuery<GetUsersResponse>(GET_USERS)
-
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error :(</p>
-
-  return (
-    <Container>
-      <h1>Oscars 2020 SPA</h1>
-      {data && <pre>{JSON.stringify(data.users, null, 2)}</pre>}
-    </Container>
-  )
+  if (!loggedIn) {
+    return <Auth />
+  } else {
+    return <Ballot />
+  }
 }
 
 export default App
