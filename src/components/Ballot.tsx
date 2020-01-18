@@ -43,7 +43,7 @@ const Ballot: React.FC = () => {
       {data.categories.map(category => (
         <div>
           <div>
-            Category: {category.title} - {category.value}
+            {category.title} - {category.value}
           </div>
           <ul>
             {category.nominees.map(nominee => (
