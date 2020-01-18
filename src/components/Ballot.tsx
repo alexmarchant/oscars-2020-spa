@@ -64,7 +64,7 @@ const MAKE_SELECTION = gql`
   }
 `
 
-interface MakeSelectionResponse {
+interface MakeSelectionRes {
   makeSelection: Selection
 }
 
@@ -76,7 +76,7 @@ interface MakeSelectionVars {
 // Update the cache manually after a selection
 function makeSelectionCallback(
   cache: DataProxy,
-  mutationResult: FetchResult<MakeSelectionResponse>,
+  mutationResult: FetchResult<MakeSelectionRes>,
 ): void {
   // Get the new selection from the makeSelection mutation
   const newSelection = mutationResult.data?.makeSelection
@@ -114,7 +114,7 @@ const Ballot: React.FC = () => {
   const { loading, error, data } = useQuery<GetCategoriesAndMySelectionsRes>(
     GET_CATEGORIES_AND_MY_SELECTIONS,
   )
-  const [makeSelection] = useMutation<MakeSelectionResponse, MakeSelectionVars>(
+  const [makeSelection] = useMutation<MakeSelectionRes, MakeSelectionVars>(
     MAKE_SELECTION,
     { update: makeSelectionCallback },
   )
