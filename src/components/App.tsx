@@ -39,6 +39,7 @@ const App: React.FC = () => {
           &nbsp;
           <button onClick={() => setToken(null)}>Log Out</button>
         </div>
+        <hr></hr>
         <Ballot />
       </div>
     )
