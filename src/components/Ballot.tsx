@@ -80,7 +80,13 @@ function makeSelectionCallback(
     throw new Error('Bad result')
   }
   const { categories, mySelections } = queryRes
-  const newMySelections = mySelections.concat([newSelection])
+  // Filter out selections with same cat id (can only select
+  // one from each cat)
+  const filteredSelections = mySelections.filter(selection => {
+    return selection.categoryId !== newSelection.categoryId
+  })
+  // Add new selection
+  const newMySelections = filteredSelections.concat([newSelection])
   cache.writeQuery({
     query: GET_CATEGORIES_AND_MY_SELECTIONS,
     data: { categories, mySelections: newMySelections },
