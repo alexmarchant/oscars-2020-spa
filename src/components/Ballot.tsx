@@ -91,11 +91,10 @@ function makeSelectionCallback(
   if (!queryRes) {
     throw new Error('Bad result')
   }
-
   const { categories, mySelections } = queryRes
 
   // Filter out selections with same cat id... can only select
-  // one nominee from each cat, so we just remove old ones)
+  // one nominee from each cat, so we just remove old ones
   const filteredSelections = mySelections.filter(selection => {
     return selection.categoryId !== newSelection.categoryId
   })
