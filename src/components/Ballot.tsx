@@ -5,7 +5,7 @@ interface Category {
   id: number
   title: string
   value: number
-  nominees: [Nominee]
+  nominees: Nominee[]
 }
 
 interface Nominee {
@@ -34,16 +34,28 @@ const Ballot: React.FC = () => {
     GET_CATEGORIES,
   )
 
-  if (loading) return <p>Loading...</p>
+  if (loading || !data) return <p>Loading...</p>
 
   if (error) return <p>{error.message}</p>
 
   return (
-    <div>{data && <pre>{JSON.stringify(data.categories, null, 2)}</pre>}</div>
+    <div>
+      {data.categories.map(category => (
+        <div>
+          <div>
+            Category: {category.title} - {category.value}
+          </div>
+          <ul>
+            {category.nominees.map(nominee => (
+              <li>
+                {nominee.name} - {nominee.film}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
   )
-  // return data && data?.categories.map(category => {
-  //   <div>{category.title}</div>
-  // })}
 }
 
 export default Ballot

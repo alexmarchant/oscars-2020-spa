@@ -30,12 +30,16 @@ const App: React.FC = () => {
     }
   }, [token])
 
-  if (token) {
+  if (token && user) {
     return (
       <div>
-        <div>user: {JSON.stringify(user)}</div>
+        <div>
+          email: {user.email}
+          &nbsp; name: {user.name}
+          &nbsp;
+          <button onClick={() => setToken(null)}>Log Out</button>
+        </div>
         <Ballot />
-        <button onClick={() => setToken(null)}>Log Out</button>
       </div>
     )
   } else {
