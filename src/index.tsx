@@ -16,15 +16,17 @@ import {
 
 const authMiddleware = new ApolloLink(
   (operation: Operation, forward: NextLink) => {
-    const headers: any = {}
-    const token = localStorage.getItem('token')
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`
-    }
+    operation.setContext(() => {
+      // add the authorization to the headers
+      const headers: any = {}
+      const token = localStorage.getItem('token')
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`
+      }
 
-    // add the authorization to the headers
-    operation.setContext({
-      headers,
+      return {
+        headers,
+      }
     })
 
     return forward(operation)

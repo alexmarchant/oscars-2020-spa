@@ -15,6 +15,7 @@ interface User {
 
 const App: React.FC = () => {
   const [token, setToken] = useState<string | null | undefined>(savedToken)
+  const [tokenSaved, setTokenSaved] = useState(false)
 
   // Recalc user when token changes
   const user = useMemo<User | undefined>(() => {
@@ -25,12 +26,14 @@ const App: React.FC = () => {
   useEffect(() => {
     if (token) {
       localStorage.setItem('token', token)
+      setTokenSaved(true)
     } else {
       localStorage.removeItem('token')
+      setTokenSaved(false)
     }
   }, [token])
 
-  if (token && user) {
+  if (tokenSaved && user) {
     return (
       <div>
         <div>
