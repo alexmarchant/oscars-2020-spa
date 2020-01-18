@@ -8,7 +8,30 @@ import {
   HttpLink,
   InMemoryCache,
   ApolloProvider,
+  ApolloLink,
+  Operation,
+  NextLink,
+  concat,
 } from '@apollo/client'
+
+const authMiddleware = new ApolloLink(
+  (operation: Operation, forward: NextLink) => {
+    let authHeader = null
+    const token = localStorage.getItem('token')
+    if (token) {
+      authHeader = `Bearer ${token}`
+    }
+
+    // add the authorization to the headers
+    operation.setContext({
+      headers: {
+        Authorization: authHeader,
+      },
+    })
+
+    return forward(operation)
+  },
+)
 
 let apiBase
 if (window.location.host.match('localhost')) {
@@ -17,11 +40,13 @@ if (window.location.host.match('localhost')) {
   apiBase = 'https://oscars-api.alexmarchant.com'
 }
 
+const httpLink = new HttpLink({
+  uri: apiBase,
+})
+
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: new HttpLink({
-    uri: apiBase,
-  }),
+  link: concat(authMiddleware, httpLink),
 })
 
 ReactDOM.render(
