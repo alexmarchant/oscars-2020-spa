@@ -134,13 +134,14 @@ const Ballot: React.FC = () => {
   return (
     <div>
       {data.categories.map(category => (
-        <div>
+        <div key={category.id}>
           <div>
             {category.title} - {category.value}
           </div>
           <ul>
             {category.nominees.map(nominee => (
               <li
+                key={nominee.id}
                 style={{
                   backgroundColor: isSelected(category, nominee)
                     ? 'green'
