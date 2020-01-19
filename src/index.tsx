@@ -44,7 +44,7 @@ const httpLink = new HttpLink({
   uri: apiBase,
 })
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: concat(authMiddleware, httpLink),
 })

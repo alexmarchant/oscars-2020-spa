@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import Auth from './Auth'
 import Ballot from './Ballot'
 import { decode } from 'jsonwebtoken'
+import { client } from '../index'
 
 const savedToken = localStorage.getItem('token')
 
@@ -30,6 +31,7 @@ const App: React.FC = () => {
     } else {
       localStorage.removeItem('token')
       setTokenSaved(false)
+      client.resetStore()
     }
   }, [token])
 
