@@ -31,6 +31,9 @@ const App: React.FC = () => {
     } else {
       localStorage.removeItem('token')
       setTokenSaved(false)
+      // Need to reset after log out, cause if it caches the query
+      // then logs in as a diff user, it retreives the other user's
+      // data!
       client.resetStore()
     }
   }, [token])
