@@ -15,7 +15,7 @@ interface User {
 
 const App: React.FC = () => {
   const [token, setToken] = useState<string | null | undefined>(savedToken)
-  const [tokenSaved, setTokenSaved] = useState(false)
+  const [tokenSaved, setTokenSaved] = useState(!!savedToken)
 
   // Recalc user when token changes
   const user = useMemo<User | undefined>(() => {
