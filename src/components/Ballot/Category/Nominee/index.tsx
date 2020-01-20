@@ -14,29 +14,26 @@ const NomineeComponent = ({
   isSelected,
   category,
 }: Props) => {
+  const selectionHandler = () => {
+    makeSelection({
+      variables: {
+        categoryId: category.id,
+        nomineeId: nominee.id,
+      },
+    })
+  }
   return (
     <div>
       <li
         key={nominee.id}
         style={{
-          backgroundColor: isSelected(category, nominee)
-            ? 'green'
-            : 'transparent',
+          backgroundColor: isSelected(category, nominee) ? 'gold' : 'lightGrey',
+          marginBottom: '5px',
+          cursor: 'pointer',
         }}
+        onClick={() => selectionHandler()}
       >
         {nominee.name} - {nominee.film}
-        <button
-          onClick={() => {
-            makeSelection({
-              variables: {
-                categoryId: category.id,
-                nomineeId: nominee.id,
-              },
-            })
-          }}
-        >
-          Pick
-        </button>
       </li>
     </div>
   )
