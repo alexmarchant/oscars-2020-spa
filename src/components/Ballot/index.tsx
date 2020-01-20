@@ -1,77 +1,16 @@
 import React from 'react'
+import { useQuery, useMutation, DataProxy, FetchResult } from '@apollo/client'
+
 import {
-  useQuery,
-  gql,
-  useMutation,
-  DataProxy,
-  FetchResult,
-} from '@apollo/client'
+  Category,
+  Nominee,
+  Selection,
+  GetCategoriesAndMySelectionsRes,
+  MakeSelectionRes,
+  MakeSelectionVars,
+} from './interfaces'
 
-interface Category {
-  id: number
-  title: string
-  value: number
-  nominees: Nominee[]
-}
-
-interface Nominee {
-  id: number
-  name: string
-  film: string
-}
-
-interface Selection {
-  id: number
-  userId: number
-  categoryId: number
-  nomineeId: number
-}
-
-const GET_CATEGORIES_AND_MY_SELECTIONS = gql`
-  query GetCategoriesAndMySelections {
-    categories {
-      id
-      title
-      value
-      nominees {
-        id
-        name
-        film
-      }
-    }
-    mySelections {
-      id
-      userId
-      categoryId
-      nomineeId
-    }
-  }
-`
-
-interface GetCategoriesAndMySelectionsRes {
-  categories: Category[]
-  mySelections: Selection[]
-}
-
-const MAKE_SELECTION = gql`
-  mutation MakeSelection($categoryId: Int!, $nomineeId: Int!) {
-    makeSelection(categoryId: $categoryId, nomineeId: $nomineeId) {
-      id
-      userId
-      categoryId
-      nomineeId
-    }
-  }
-`
-
-interface MakeSelectionRes {
-  makeSelection: Selection
-}
-
-interface MakeSelectionVars {
-  categoryId: number
-  nomineeId: number
-}
+import { query, mutation } from './graphql'
 
 // Update the cache manually after a selection
 function makeSelectionCallback(
@@ -86,7 +25,7 @@ function makeSelectionCallback(
 
   // Get the cache for the query we used on this page
   const queryRes = cache.readQuery<GetCategoriesAndMySelectionsRes>({
-    query: GET_CATEGORIES_AND_MY_SELECTIONS,
+    query: query.GET_CATEGORIES_AND_MY_SELECTIONS,
   })
   if (!queryRes) {
     throw new Error('Bad result')
@@ -95,7 +34,7 @@ function makeSelectionCallback(
 
   // Filter out selections with same cat id... can only select
   // one nominee from each cat, so we just remove old ones
-  const filteredSelections = mySelections.filter(selection => {
+  const filteredSelections = mySelections.filter((selection: Selection) => {
     return selection.categoryId !== newSelection.categoryId
   })
 
@@ -104,17 +43,17 @@ function makeSelectionCallback(
 
   // Save updated data to cache using writeQuery
   cache.writeQuery({
-    query: GET_CATEGORIES_AND_MY_SELECTIONS,
+    query: query.GET_CATEGORIES_AND_MY_SELECTIONS,
     data: { categories, mySelections: newMySelections },
   })
 }
 
 const Ballot: React.FC = () => {
   const { loading, error, data } = useQuery<GetCategoriesAndMySelectionsRes>(
-    GET_CATEGORIES_AND_MY_SELECTIONS,
+    query.GET_CATEGORIES_AND_MY_SELECTIONS,
   )
   const [makeSelection] = useMutation<MakeSelectionRes, MakeSelectionVars>(
-    MAKE_SELECTION,
+    mutation.MAKE_SELECTION,
     { update: makeSelectionCallback },
   )
 
