@@ -1,5 +1,6 @@
 import React from 'react'
 import { useQuery, useMutation, DataProxy, FetchResult } from '@apollo/client'
+import CategoryComponent from './Category'
 
 import {
   Category,
@@ -57,10 +58,6 @@ const Ballot: React.FC = () => {
     { update: makeSelectionCallback },
   )
 
-  if (loading || !data) return <p>Loading...</p>
-
-  if (error) return <p>{error.message}</p>
-
   function isSelected(category: Category, nominee: Nominee): boolean {
     if (!data) return false
     return data.mySelections.some(
@@ -70,40 +67,19 @@ const Ballot: React.FC = () => {
     )
   }
 
+  if (loading || !data) return <p>Loading...</p>
+
+  if (error) return <p>{error.message}</p>
+
   return (
     <div>
       {data.categories.map(category => (
-        <div key={category.id}>
-          <div>
-            {category.title} - {category.value}
-          </div>
-          <ul>
-            {category.nominees.map(nominee => (
-              <li
-                key={nominee.id}
-                style={{
-                  backgroundColor: isSelected(category, nominee)
-                    ? 'green'
-                    : 'transparent',
-                }}
-              >
-                {nominee.name} - {nominee.film}
-                <button
-                  onClick={() => {
-                    makeSelection({
-                      variables: {
-                        categoryId: category.id,
-                        nomineeId: nominee.id,
-                      },
-                    })
-                  }}
-                >
-                  Pick
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <CategoryComponent
+          key={category.id}
+          category={category}
+          isSelected={isSelected}
+          makeSelection={makeSelection}
+        />
       ))}
     </div>
   )
