@@ -1,5 +1,6 @@
 import React from 'react'
 import { useQuery, useMutation, DataProxy, FetchResult } from '@apollo/client'
+import { useLocation } from 'react-router-dom'
 import CategoryComponent from './Category'
 
 import {
@@ -9,9 +10,16 @@ import {
   GetCategoriesAndMySelectionsRes,
   MakeSelectionRes,
   MakeSelectionVars,
+  SetWinnerRes,
+  SetWinnerVars,
 } from './interfaces'
 
 import { query, mutation } from './graphql'
+
+enum Mode {
+  Admin,
+  NonAdmin,
+}
 
 // Update the cache manually after a selection
 function makeSelectionCallback(
@@ -50,14 +58,30 @@ function makeSelectionCallback(
 }
 
 const Ballot: React.FC = () => {
+  let location = useLocation()
+
+  const { pathname } = location
+
+  const mode: Mode = pathname === '/admin' ? Mode.Admin : Mode.NonAdmin
+
   const { loading, error, data } = useQuery<GetCategoriesAndMySelectionsRes>(
     query.GET_CATEGORIES_AND_MY_SELECTIONS,
   )
+
   const [makeSelection] = useMutation<MakeSelectionRes, MakeSelectionVars>(
     mutation.MAKE_SELECTION,
     { update: makeSelectionCallback },
   )
 
+  const [setWinner] = useMutation<SetWinnerRes, SetWinnerVars>(
+    mutation.SET_WINNER,
+  )
+
+  if (loading || !data) return <p>Loading...</p>
+
+  if (error) return <p>{error.message}</p>
+
+  // onClicks
   function isSelected(category: Category, nominee: Nominee): boolean {
     if (!data) return false
     return data.mySelections.some(
@@ -70,12 +94,19 @@ const Ballot: React.FC = () => {
     if (!data) return false
     return data.categories.some(category => category.winnerId === nominee.id)
   }
+  function setWinnerToggle({ variables }: { variables: SetWinnerVars }) {
+    if (!data) return
+    const category = data.categories.find(
+      category => category.id === variables.categoryId,
+    )
+    // If nominee is already selected, then toggle it off
+    if (category?.winnerId === variables.nomineeId) {
+      variables.nomineeId = null
+    }
+    setWinner({ variables })
+  }
 
-  console.log({ data })
-
-  if (loading || !data) return <p>Loading...</p>
-
-  if (error) return <p>{error.message}</p>
+  const onClick = mode === Mode.Admin ? setWinnerToggle : makeSelection
 
   return (
     <div>
@@ -85,7 +116,7 @@ const Ballot: React.FC = () => {
           category={category}
           isSelected={isSelected}
           isWinner={isWinner}
-          makeSelection={makeSelection}
+          onClick={onClick}
         />
       ))}
     </div>

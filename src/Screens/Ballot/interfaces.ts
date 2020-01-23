@@ -32,3 +32,17 @@ export interface GetCategoriesAndMySelectionsRes {
   categories: Category[]
   mySelections: Selection[]
 }
+
+export interface SetWinnerRes {
+  pickWinners: Category
+}
+
+export interface SetWinnerVars {
+  categoryId: number
+  nomineeId: number | null
+}
+
+// Not Being Used
+export interface GetCategoriesRes {
+  categories: Category[]
+}

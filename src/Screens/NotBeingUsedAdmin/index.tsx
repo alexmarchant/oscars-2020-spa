@@ -58,7 +58,7 @@ const Admin: React.FC = () => {
           category={category}
           isSelected={isSelected}
           isWinner={isWinner}
-          makeSelection={setWinnerToggle}
+          onClick={setWinnerToggle}
         />
       ))}
     </div>

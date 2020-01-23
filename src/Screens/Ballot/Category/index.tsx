@@ -6,12 +6,12 @@ interface Props {
   category: Category
   isSelected: (category: Category, nominee: Nominee) => boolean
   isWinner: (nominee: Nominee) => boolean
-  makeSelection: Function
+  onClick: Function
 }
 
 const CategoryComponent = ({
   category,
-  makeSelection,
+  onClick,
   isSelected,
   isWinner,
 }: Props) => {
@@ -29,7 +29,7 @@ const CategoryComponent = ({
               nominee={nominee}
               isSelected={isSelected}
               isWinner={isWinner}
-              makeSelection={makeSelection}
+              onClick={onClick}
             />
           ))}
         </ul>

@@ -6,18 +6,18 @@ interface Props {
   category: Category
   isSelected: (category: Category, nominee: Nominee) => boolean
   isWinner: (nominee: Nominee) => boolean
-  makeSelection: Function
+  onClick: Function
 }
 
 const NomineeComponent = ({
   nominee,
-  makeSelection,
+  onClick,
   isSelected,
   isWinner,
   category,
 }: Props) => {
   const selectionHandler = () => {
-    makeSelection({
+    onClick({
       variables: {
         categoryId: category.id,
         nomineeId: nominee.id,
