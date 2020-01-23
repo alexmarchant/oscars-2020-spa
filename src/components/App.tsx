@@ -6,6 +6,7 @@ import {
   Redirect,
 } from 'react-router-dom'
 import Auth from './Auth'
+import Admin from './Admin'
 import Header from './Header'
 import Ballot from './Ballot'
 
@@ -19,6 +20,7 @@ interface User {
   id: number
   name: string
   email: string
+  admin: boolean
   createdAt: string
   updatedAt: string
 }
@@ -69,6 +71,10 @@ const App: React.FC = () => {
         <Route path="/ballot">
           {!tokenSaved && <Redirect to="/login" />}
           <Ballot />
+        </Route>
+        <Route path="/admin">
+          {!tokenSaved && user && user.admin && <Redirect to="/login" />}
+          <Admin />
         </Route>
       </Switch>
     </Router>

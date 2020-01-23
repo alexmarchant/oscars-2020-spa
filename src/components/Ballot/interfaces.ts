@@ -2,6 +2,7 @@ export interface Category {
   id: number
   title: string
   value: number
+  winnerId: number
   nominees: Nominee[]
 }
 

@@ -7,6 +7,7 @@ export const query = {
         id
         title
         value
+        winnerId
         nominees {
           id
           name
@@ -21,6 +22,21 @@ export const query = {
       }
     }
   `,
+  GET_CATEGORIES: gql`
+    query GetCategories {
+      categories {
+        id
+        title
+        value
+        winnerId
+        nominees {
+          id
+          name
+          film
+        }
+      }
+    }
+  `,
 }
 export const mutation = {
   MAKE_SELECTION: gql`
@@ -30,6 +46,14 @@ export const mutation = {
         userId
         categoryId
         nomineeId
+      }
+    }
+  `,
+  SET_WINNER: gql`
+    mutation PickWinner($categoryId: Int!, $nomineeId: Int!) {
+      setWinner(categoryId: $categoryId, nomineeId: $nomineeId) {
+        id
+        winnerId
       }
     }
   `,
