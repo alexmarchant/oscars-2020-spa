@@ -1,8 +1,17 @@
 import React, { useState, useEffect, useMemo } from 'react'
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom'
 import Auth from './Auth'
+import Header from './Header'
 import Ballot from './Ballot'
+
 import { decode } from 'jsonwebtoken'
 import { client } from '../index'
+import ProtectedRoute from './ProtectedRoute'
 
 const savedToken = localStorage.getItem('token')
 
@@ -28,6 +37,7 @@ const App: React.FC = () => {
     if (token) {
       localStorage.setItem('token', token)
       setTokenSaved(true)
+      // history.push('/ballot')
     } else {
       localStorage.removeItem('token')
       setTokenSaved(false)
@@ -38,22 +48,31 @@ const App: React.FC = () => {
     }
   }, [token])
 
-  if (tokenSaved && user) {
-    return (
-      <div>
-        <div>
-          email: {user.email}
-          &nbsp; name: {user.name}
-          &nbsp;
-          <button onClick={() => setToken(null)}>Log Out</button>
-        </div>
-        <hr></hr>
-        <Ballot />
-      </div>
-    )
-  } else {
-    return <Auth setToken={setToken} />
-  }
+  // if (tokenSaved && user) {
+  //   return (
+  //     <div>
+  //       <Header email={user.email} name={user.name} setToken={setToken} />
+  //       <Ballot />
+  //     </div>
+  //   )
+  // } else {
+  //   return <Auth setToken={setToken} />
+  // }
+
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/login">
+          {tokenSaved && <Redirect to="/ballot" />}
+          <Auth setToken={setToken} />
+        </Route>
+        <Route path="/ballot">
+          {!tokenSaved && <Redirect to="/login" />}
+          <Ballot />
+        </Route>
+      </Switch>
+    </Router>
+  )
 }
 
 export default App

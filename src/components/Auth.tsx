@@ -7,6 +7,7 @@ import React, {
 } from 'react'
 import { gql, useMutation } from '@apollo/client'
 import { useForm } from 'react-hook-form'
+import { Redirect } from 'react-router-dom'
 
 const LOGIN = gql`
   mutation Login($email: String!, $password: String!) {
@@ -100,7 +101,11 @@ const Auth = ({ setToken }: Props): JSX.Element => {
         {errors.email && <span>Email is required</span>}
         <br></br>
         <label htmlFor="name">Password:</label>
-        <input type="text" name="password" ref={register({ required: true })} />
+        <input
+          type="password"
+          name="password"
+          ref={register({ required: true })}
+        />
         {errors.password && <span>Password is required</span>}
         <br></br>
         <input type="submit" value="Submit" />
