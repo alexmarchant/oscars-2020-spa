@@ -5,18 +5,18 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom'
-import Auth from './Auth'
-import Admin from './Admin'
-import Header from './Header'
-import Ballot from './Ballot'
+import Layout from './components/Layout'
+import Auth from './Screens/Auth'
+import Ballot from './Screens/Ballot'
+import Admin from './Screens/Admin'
 
 import { decode } from 'jsonwebtoken'
-import { client } from '../index'
-import ProtectedRoute from './ProtectedRoute'
+import { client } from './index'
+import ProtectedRoute from './components/ProtectedRoute'
 
 const savedToken = localStorage.getItem('token')
 
-interface User {
+export interface User {
   id: number
   name: string
   email: string
@@ -50,34 +50,27 @@ const App: React.FC = () => {
     }
   }, [token])
 
-  // if (tokenSaved && user) {
-  //   return (
-  //     <div>
-  //       <Header email={user.email} name={user.name} setToken={setToken} />
-  //       <Ballot />
-  //     </div>
-  //   )
-  // } else {
-  //   return <Auth setToken={setToken} />
-  // }
-
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/login">
-          {tokenSaved && <Redirect to="/ballot" />}
-          <Auth setToken={setToken} />
-        </Route>
-        <Route path="/ballot">
-          {!tokenSaved && <Redirect to="/login" />}
-          <Ballot />
-        </Route>
-        <Route path="/admin">
-          {!tokenSaved && user && user.admin && <Redirect to="/login" />}
-          <Admin />
-        </Route>
-      </Switch>
-    </Router>
+    <Layout user={user} setToken={setToken}>
+      <Router>
+        <Switch>
+          <ProtectedRoute path="/ballot" authenticated={tokenSaved}>
+            <Ballot />}
+          </ProtectedRoute>
+          <Route path="/admin">
+            {!tokenSaved && user && user.admin && <Redirect to="/login" />}
+            <Admin />
+          </Route>
+          <Route path="/">
+            {tokenSaved ? (
+              <Redirect to="/ballot" />
+            ) : (
+              <Auth setToken={setToken} />
+            )}
+          </Route>
+        </Switch>
+      </Router>
+    </Layout>
   )
 }
 

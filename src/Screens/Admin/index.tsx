@@ -1,8 +1,8 @@
 import React from 'react'
 import { useQuery, useMutation } from '@apollo/client'
-import { query, mutation } from './Ballot/graphql'
-import { Category, Nominee } from './Ballot/interfaces'
-import CategoryComponent from './Ballot/Category'
+import { query, mutation } from '../Ballot/graphql'
+import { Category, Nominee } from '../Ballot/interfaces'
+import CategoryComponent from '../Ballot/Category'
 
 interface GetCategoriesRes {
   categories: Category[]

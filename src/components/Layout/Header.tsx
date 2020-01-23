@@ -1,20 +1,20 @@
 import React, { Dispatch, SetStateAction } from 'react'
+import { User } from '../../App'
 interface Props {
-  email: string
-  name: string
+  user: User | undefined
   setToken: Dispatch<SetStateAction<string | null | undefined>>
 }
 
-const Header: React.FC<Props> = ({ email, name, setToken }) => {
-  return (
+const Header: React.FC<Props> = ({ user, setToken }) => {
+  return user ? (
     <div>
-      email: {email}
-      &nbsp; name: {name}
+      email: {user.email}
+      &nbsp; name: {user.name}
       &nbsp;
       <button onClick={() => setToken(null)}>Log Out</button>
       <hr />
     </div>
-  )
+  ) : null
 }
 
 export default Header

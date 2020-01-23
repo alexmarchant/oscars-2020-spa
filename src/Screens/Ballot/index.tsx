@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import { useQuery, useMutation, DataProxy, FetchResult } from '@apollo/client'
 import CategoryComponent from './Category'
-import Header from '../Header'
 
 import {
   Category,
@@ -68,13 +67,14 @@ const Ballot: React.FC = () => {
     )
   }
 
+  console.log({ data })
+
   if (loading || !data) return <p>Loading...</p>
 
   if (error) return <p>{error.message}</p>
 
   return (
     <div>
-      {/* <Header email={} name={} /> */}
       {data.categories.map(category => (
         <CategoryComponent
           key={category.id}
