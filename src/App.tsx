@@ -55,12 +55,15 @@ const App: React.FC = () => {
       <Router>
         <Switch>
           <ProtectedRoute path="/ballot" authenticated={tokenSaved}>
-            <Ballot />}
+            <Ballot />
           </ProtectedRoute>
-          <Route path="/admin">
-            {!tokenSaved && user && user.admin && <Redirect to="/login" />}
+          <ProtectedRoute
+            path="/admin"
+            authenticated={!!(tokenSaved && user && user.admin)}
+          >
             <Admin />
-          </Route>
+          </ProtectedRoute>
+
           <Route path="/">
             {tokenSaved ? (
               <Redirect to="/ballot" />
