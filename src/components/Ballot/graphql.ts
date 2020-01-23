@@ -50,7 +50,7 @@ export const mutation = {
     }
   `,
   SET_WINNER: gql`
-    mutation PickWinner($categoryId: Int!, $nomineeId: Int!) {
+    mutation PickWinner($categoryId: Int!, $nomineeId: Int) {
       setWinner(categoryId: $categoryId, nomineeId: $nomineeId) {
         id
         winnerId

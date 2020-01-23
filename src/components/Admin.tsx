@@ -14,17 +14,28 @@ interface SetWinnerRes {
 
 interface SetWinnerVars {
   categoryId: number
-  nomineeId: number
+  nomineeId: number | null
 }
 
 const Admin: React.FC = () => {
   const { loading, error, data } = useQuery<GetCategoriesRes>(
     query.GET_CATEGORIES,
   )
-
   const [setWinner] = useMutation<SetWinnerRes, SetWinnerVars>(
     mutation.SET_WINNER,
   )
+
+  function setWinnerToggle({ variables }: { variables: SetWinnerVars }) {
+    if (!data) return
+    const category = data.categories.find(
+      category => category.id === variables.categoryId,
+    )
+    // If nominee is already selected, then toggle it off
+    if (category?.winnerId === variables.nomineeId) {
+      variables.nomineeId = null
+    }
+    setWinner({ variables })
+  }
 
   function isSelected(category: Category, nominee: Nominee): boolean {
     if (!data) return false
@@ -41,7 +52,7 @@ const Admin: React.FC = () => {
           key={category.id}
           category={category}
           isSelected={isSelected}
-          makeSelection={setWinner}
+          makeSelection={setWinnerToggle}
         />
       ))}
     </div>
