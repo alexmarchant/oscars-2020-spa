@@ -42,6 +42,11 @@ const Admin: React.FC = () => {
     return category.winnerId === nominee.id
   }
 
+  function isWinner(nominee: Nominee): boolean {
+    if (!data) return false
+    return data.categories.some(category => category.winnerId === nominee.id)
+  }
+
   if (loading || !data) return <p>Loading...</p>
   if (error) return <p>{error.message}</p>
 
@@ -52,6 +57,7 @@ const Admin: React.FC = () => {
           key={category.id}
           category={category}
           isSelected={isSelected}
+          isWinner={isWinner}
           makeSelection={setWinnerToggle}
         />
       ))}

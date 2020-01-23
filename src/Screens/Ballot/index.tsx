@@ -66,6 +66,10 @@ const Ballot: React.FC = () => {
         selection.nomineeId === nominee.id,
     )
   }
+  function isWinner(nominee: Nominee): boolean {
+    if (!data) return false
+    return data.categories.some(category => category.winnerId === nominee.id)
+  }
 
   console.log({ data })
 
@@ -80,6 +84,7 @@ const Ballot: React.FC = () => {
           key={category.id}
           category={category}
           isSelected={isSelected}
+          isWinner={isWinner}
           makeSelection={makeSelection}
         />
       ))}

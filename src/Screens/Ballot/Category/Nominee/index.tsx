@@ -5,6 +5,7 @@ interface Props {
   nominee: Nominee
   category: Category
   isSelected: (category: Category, nominee: Nominee) => boolean
+  isWinner: (nominee: Nominee) => boolean
   makeSelection: Function
 }
 
@@ -12,6 +13,7 @@ const NomineeComponent = ({
   nominee,
   makeSelection,
   isSelected,
+  isWinner,
   category,
 }: Props) => {
   const selectionHandler = () => {
@@ -22,12 +24,35 @@ const NomineeComponent = ({
       },
     })
   }
+
+  const generateBackgroundColor = (category: Category, nominee: Nominee) => {
+    const selected = isSelected(category, nominee)
+    const winner = isWinner(nominee)
+    const loser = category.winnerId !== null && !winner && selected
+
+    let color = 'lightGrey'
+
+    if (selected) {
+      color = 'gold'
+    }
+
+    if (winner) {
+      color = 'green'
+    }
+
+    if (loser) {
+      color = 'red'
+    }
+
+    return color
+  }
+
   return (
     <div>
       <li
         key={nominee.id}
         style={{
-          backgroundColor: isSelected(category, nominee) ? 'gold' : 'lightGrey',
+          backgroundColor: generateBackgroundColor(category, nominee),
           marginBottom: '5px',
           cursor: 'pointer',
         }}

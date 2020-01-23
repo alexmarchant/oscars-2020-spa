@@ -5,10 +5,16 @@ import NomineeComponent from './Nominee'
 interface Props {
   category: Category
   isSelected: (category: Category, nominee: Nominee) => boolean
+  isWinner: (nominee: Nominee) => boolean
   makeSelection: Function
 }
 
-const CategoryComponent = ({ category, makeSelection, isSelected }: Props) => {
+const CategoryComponent = ({
+  category,
+  makeSelection,
+  isSelected,
+  isWinner,
+}: Props) => {
   return (
     <div>
       <div key={category.id}>
@@ -22,6 +28,7 @@ const CategoryComponent = ({ category, makeSelection, isSelected }: Props) => {
               category={category}
               nominee={nominee}
               isSelected={isSelected}
+              isWinner={isWinner}
               makeSelection={makeSelection}
             />
           ))}

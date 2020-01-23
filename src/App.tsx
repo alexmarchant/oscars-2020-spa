@@ -5,13 +5,13 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom'
+
+import { decode } from 'jsonwebtoken'
+import { client } from './index'
 import Layout from './components/Layout'
 import Auth from './Screens/Auth'
 import Ballot from './Screens/Ballot'
 import Admin from './Screens/Admin'
-
-import { decode } from 'jsonwebtoken'
-import { client } from './index'
 import ProtectedRoute from './components/ProtectedRoute'
 
 const savedToken = localStorage.getItem('token')
