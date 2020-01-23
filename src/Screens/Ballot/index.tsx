@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React from 'react'
 import { useQuery, useMutation, DataProxy, FetchResult } from '@apollo/client'
 import CategoryComponent from './Category'
 

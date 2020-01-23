@@ -1,12 +1,11 @@
 import React, {
-  useState,
   useEffect,
   Dispatch,
   SetStateAction,
   BaseSyntheticEvent,
 } from 'react'
 
-import { Route, Redirect, useRouteMatch, useLocation } from 'react-router-dom'
+import { Route, Redirect, useLocation } from 'react-router-dom'
 import { useMutation } from '@apollo/client'
 import { Mode } from './interface'
 import Login from './Login'
@@ -25,14 +24,12 @@ interface Props {
 }
 
 const Auth: React.FC<Props> = ({ setToken }) => {
-  let match = useRouteMatch()
   let location = useLocation()
 
   const { pathname } = location
 
   const mode: Mode = pathname === '/login' ? Mode.Login : Mode.Signup
 
-  // const [mode, setMode] = useState(Mode.Signup)
   const [login, loginRes] = useMutation<LoginRes, LoginVars>(LOGIN)
   const [signup, signupRes] = useMutation<SignupRes, SignupVars>(SIGNUP)
 
