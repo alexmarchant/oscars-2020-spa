@@ -1,5 +1,11 @@
 import React from 'react'
-import { useQuery, useMutation, DataProxy, FetchResult } from '@apollo/client'
+import {
+  useQuery,
+  useMutation,
+  DataProxy,
+  FetchResult,
+  useSubscription,
+} from '@apollo/client'
 import { useLocation } from 'react-router-dom'
 import CategoryComponent from './Category'
 
@@ -12,6 +18,7 @@ import {
   MakeSelectionVars,
   SetWinnerRes,
   SetWinnerVars,
+  CategoryUpdatedRes,
 } from './interfaces'
 
 import { query, mutation } from './graphql'
@@ -76,6 +83,8 @@ const Ballot: React.FC = () => {
   const [setWinner] = useMutation<SetWinnerRes, SetWinnerVars>(
     mutation.SET_WINNER,
   )
+
+  useSubscription<CategoryUpdatedRes>(query.CATEGORY_UPDATED)
 
   if (loading || !data) return <p>Loading...</p>
 

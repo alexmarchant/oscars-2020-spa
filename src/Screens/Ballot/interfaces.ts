@@ -46,3 +46,7 @@ export interface SetWinnerVars {
 export interface GetCategoriesRes {
   categories: Category[]
 }
+
+export interface CategoryUpdatedRes {
+  categoryUpdated: Category
+}

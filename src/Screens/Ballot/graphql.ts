@@ -37,6 +37,14 @@ export const query = {
       }
     }
   `,
+  CATEGORY_UPDATED: gql`
+    subscription CategoryUpdated {
+      categoryUpdated {
+        id
+        winnerId
+      }
+    }
+  `
 }
 export const mutation = {
   MAKE_SELECTION: gql`

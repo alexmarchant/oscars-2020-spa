@@ -1,8 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
-import './index.css'
-
 import {
   ApolloClient,
   HttpLink,
@@ -12,7 +10,11 @@ import {
   Operation,
   NextLink,
   concat,
+  split,
+  getMainDefinition,
 } from '@apollo/client'
+import { WebSocketLink } from '@apollo/link-ws'
+import './index.css'
 
 const authMiddleware = new ApolloLink(
   (operation: Operation, forward: NextLink) => {
@@ -33,20 +35,50 @@ const authMiddleware = new ApolloLink(
   },
 )
 
-let apiBase
+let host
+let httpProtocol
+let wsProtocol
 if (window.location.host.match('localhost')) {
-  apiBase = 'http://localhost:4000'
+  host = 'localhost:4000'
+  httpProtocol = 'http://'
+  wsProtocol = 'ws://'
 } else {
-  apiBase = 'https://oscars-api.alexmarchant.com'
+  host = 'oscars-api.alexmarchant.com'
+  httpProtocol = 'https://'
+  wsProtocol = 'wss://'
 }
 
 const httpLink = new HttpLink({
-  uri: apiBase,
+  uri: httpProtocol + host,
 })
+
+const wsLink = new WebSocketLink({
+  uri: wsProtocol + host + '/graphql',
+  options: {
+    reconnect: true,
+  },
+})
+
+const authedHttpLink = concat(authMiddleware, httpLink)
+
+// using the ability to split links, you can send data to each link
+// depending on what kind of operation is being sent
+const link = split(
+  // split based on operation type
+  ({ query }) => {
+    const definition = getMainDefinition(query)
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    )
+  },
+  wsLink,
+  authedHttpLink,
+)
 
 export const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: concat(authMiddleware, httpLink),
+  link,
 })
 
 ReactDOM.render(
