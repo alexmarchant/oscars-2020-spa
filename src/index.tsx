@@ -44,8 +44,8 @@ if (window.location.host.match('localhost')) {
   wsProtocol = 'ws://'
 } else {
   host = 'oscars-api.alexmarchant.com'
-  httpProtocol = 'https://'
-  wsProtocol = 'wss://'
+  httpProtocol = 'http://'
+  wsProtocol = 'ws://'
 }
 
 const httpLink = new HttpLink({
