@@ -11,6 +11,7 @@ import { client } from './index'
 import Layout from './components/Layout'
 import Auth from './Screens/Auth'
 import Ballot from './Screens/Ballot'
+import LeaderBoard from './Screens/LeaderBoard'
 import ProtectedRoute from './components/ProtectedRoute'
 
 const savedToken = localStorage.getItem('token')
@@ -61,6 +62,9 @@ const App: React.FC = () => {
             authenticated={!!(tokenSaved && user && user.admin)}
           >
             <Ballot />
+          </ProtectedRoute>
+          <ProtectedRoute path="/leaderboard" authenticated={tokenSaved}>
+            <LeaderBoard />
           </ProtectedRoute>
 
           <Route path="/">
