@@ -9,19 +9,23 @@ import {
 import { useLocation } from 'react-router-dom'
 import CategoryComponent from './Category'
 
+import { Category, Nominee, Selection } from '../../graphql/shared-types'
 import {
-  Category,
-  Nominee,
-  Selection,
+  GET_CATEGORIES_AND_MY_SELECTIONS,
   GetCategoriesAndMySelectionsRes,
+} from '../../graphql/queries'
+import {
+  MAKE_SELECTION,
+  SET_WINNER,
   MakeSelectionRes,
   MakeSelectionVars,
   SetWinnerRes,
   SetWinnerVars,
+} from '../../graphql/mutations'
+import {
+  CATEGORY_UPDATED,
   CategoryUpdatedRes,
-} from './interfaces'
-
-import { query, mutation } from './graphql'
+} from '../../graphql/subscriptions'
 
 enum Mode {
   Admin,
@@ -41,7 +45,7 @@ function makeSelectionCallback(
 
   // Get the cache for the query we used on this page
   const queryRes = cache.readQuery<GetCategoriesAndMySelectionsRes>({
-    query: query.GET_CATEGORIES_AND_MY_SELECTIONS,
+    query: GET_CATEGORIES_AND_MY_SELECTIONS,
   })
   if (!queryRes) {
     throw new Error('Bad result')
@@ -59,7 +63,7 @@ function makeSelectionCallback(
 
   // Save updated data to cache using writeQuery
   cache.writeQuery({
-    query: query.GET_CATEGORIES_AND_MY_SELECTIONS,
+    query: GET_CATEGORIES_AND_MY_SELECTIONS,
     data: { categories, mySelections: newMySelections },
   })
 }
@@ -72,19 +76,17 @@ const Ballot: React.FC = () => {
   const mode: Mode = pathname === '/admin' ? Mode.Admin : Mode.NonAdmin
 
   const { loading, error, data } = useQuery<GetCategoriesAndMySelectionsRes>(
-    query.GET_CATEGORIES_AND_MY_SELECTIONS,
+    GET_CATEGORIES_AND_MY_SELECTIONS,
   )
 
   const [makeSelection] = useMutation<MakeSelectionRes, MakeSelectionVars>(
-    mutation.MAKE_SELECTION,
+    MAKE_SELECTION,
     { update: makeSelectionCallback },
   )
 
-  const [setWinner] = useMutation<SetWinnerRes, SetWinnerVars>(
-    mutation.SET_WINNER,
-  )
+  const [setWinner] = useMutation<SetWinnerRes, SetWinnerVars>(SET_WINNER)
 
-  useSubscription<CategoryUpdatedRes>(query.CATEGORY_UPDATED)
+  useSubscription<CategoryUpdatedRes>(CATEGORY_UPDATED)
 
   if (loading || !data) return <p>Loading...</p>
 

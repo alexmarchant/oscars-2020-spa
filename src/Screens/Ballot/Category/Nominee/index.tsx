@@ -1,5 +1,5 @@
 import React from 'react'
-import { Nominee, Category } from '../../interfaces'
+import { Nominee, Category } from '../../../../graphql/shared-types'
 
 interface Props {
   nominee: Nominee

@@ -4,20 +4,20 @@ import React, {
   SetStateAction,
   BaseSyntheticEvent,
 } from 'react'
-
 import { Route, Redirect, useLocation } from 'react-router-dom'
 import { useMutation } from '@apollo/client'
 import { Mode } from './interface'
 import Login from './Login'
 import Signup from './Signup'
+import { FormData } from './interface'
 import {
+  LOGIN,
+  SIGNUP,
   LoginRes,
   LoginVars,
   SignupRes,
   SignupVars,
-  FormData,
-} from './interface'
-import { LOGIN, SIGNUP } from './graphql'
+} from '../../graphql/mutations'
 
 interface Props {
   setToken: Dispatch<SetStateAction<string | null | undefined>>

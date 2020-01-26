@@ -1,29 +1,17 @@
 import React from 'react'
 import { useQuery, useMutation } from '@apollo/client'
-import { query, mutation } from '../Ballot/graphql'
-import { Category, Nominee } from '../Ballot/interfaces'
+import { GET_CATEGORIES, GetCategoriesRes } from '../../graphql/queries'
+import {
+  SET_WINNER,
+  SetWinnerRes,
+  SetWinnerVars,
+} from '../../graphql/mutations'
+import { Category, Nominee } from '../../graphql/shared-types'
 import CategoryComponent from '../Ballot/Category'
 
-interface GetCategoriesRes {
-  categories: Category[]
-}
-
-interface SetWinnerRes {
-  pickWinners: Category
-}
-
-interface SetWinnerVars {
-  categoryId: number
-  nomineeId: number | null
-}
-
 const Admin: React.FC = () => {
-  const { loading, error, data } = useQuery<GetCategoriesRes>(
-    query.GET_CATEGORIES,
-  )
-  const [setWinner] = useMutation<SetWinnerRes, SetWinnerVars>(
-    mutation.SET_WINNER,
-  )
+  const { loading, error, data } = useQuery<GetCategoriesRes>(GET_CATEGORIES)
+  const [setWinner] = useMutation<SetWinnerRes, SetWinnerVars>(SET_WINNER)
 
   function setWinnerToggle({ variables }: { variables: SetWinnerVars }) {
     if (!data) return
