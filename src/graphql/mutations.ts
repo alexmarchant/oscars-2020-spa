@@ -1,4 +1,6 @@
-import { gql } from '@apollo/client'
+import { gql, DataProxy, FetchResult } from '@apollo/client'
+import { GET_MY_SELECTIONS, GetMySelectionsRes } from './queries'
+import { Selection } from './shared-types'
 
 export interface MakeSelectionRes {
   makeSelection: {
@@ -24,6 +26,42 @@ export const MAKE_SELECTION = gql`
     }
   }
 `
+
+// Update the cache manually after a selection
+export function makeSelectionCallback(
+  cache: DataProxy,
+  mutationResult: FetchResult<MakeSelectionRes>,
+): void {
+  // Get the new selection from the makeSelection mutation
+  const newSelection = mutationResult.data?.makeSelection
+  if (!newSelection) {
+    throw new Error('Bad result')
+  }
+
+  // Get the cache for the query we used on this page
+  const queryRes = cache.readQuery<GetMySelectionsRes>({
+    query: GET_MY_SELECTIONS,
+  })
+  if (!queryRes) {
+    throw new Error('Bad result')
+  }
+  const { mySelections } = queryRes
+
+  // Filter out selections with same cat id... can only select
+  // one nominee from each cat, so we just remove old ones
+  const filteredSelections = mySelections.filter((selection: Selection) => {
+    return selection.categoryId !== newSelection.categoryId
+  })
+
+  // Add new selection
+  const newMySelections = filteredSelections.concat([newSelection])
+
+  // Save updated data to cache using writeQuery
+  cache.writeQuery({
+    query: GET_MY_SELECTIONS,
+    data: { mySelections: newMySelections },
+  })
+}
 
 export interface SetWinnerRes {
   setWinner: {
