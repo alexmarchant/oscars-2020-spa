@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from './Header'
-import { User } from '../../App'
+import { User } from '../../graphql/shared-types'
 
 interface Props {
   children: any

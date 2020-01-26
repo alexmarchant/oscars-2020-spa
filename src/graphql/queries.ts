@@ -1,13 +1,12 @@
 import { gql } from '@apollo/client'
-import { Category, Selection } from './shared-types'
+import { Category, Selection, User } from './shared-types'
 
-export interface GetCategoriesAndMySelectionsRes {
+export interface GetCategoriesRes {
   categories: Category[]
-  mySelections: Selection[]
 }
 
-export const GET_CATEGORIES_AND_MY_SELECTIONS = gql`
-  query GetCategoriesAndMySelections {
+const GetCategoriesFragment = gql`
+  fragment GetCategoriesFragment on Query {
     categories {
       id
       title
@@ -19,6 +18,22 @@ export const GET_CATEGORIES_AND_MY_SELECTIONS = gql`
         film
       }
     }
+  }
+`
+
+export const GET_CATEGORIES = gql`
+  query GetCategories {
+    ...GetCategoriesFragment
+  }
+  ${GetCategoriesFragment}
+`
+
+export interface GetMySelectionsRes {
+  mySelections: Selection[]
+}
+
+const GetMySelectionsFragment = gql`
+  fragment GetMySelectionsFragment on Query {
     mySelections {
       id
       userId
@@ -28,22 +43,60 @@ export const GET_CATEGORIES_AND_MY_SELECTIONS = gql`
   }
 `
 
-export interface GetCategoriesRes {
-  categories: Category[]
+export const GET_MY_SELECTIONS = gql`
+  query GetMySelections {
+    ...GetMySelectionsFragment
+  }
+  ${GetMySelectionsFragment}
+`
+
+export type GetCategoriesAndMySelectionsRes = GetCategoriesRes &
+  GetMySelectionsRes
+
+export const GET_CATEGORIES_AND_MY_SELECTIONS = gql`
+  query GetCategoriesAndMySelections {
+    ...GetCategoriesFragment
+    ...GetMySelectionsFragment
+  }
+  ${GetCategoriesFragment}
+  ${GetMySelectionsFragment}
+`
+
+export interface GetUsersRes {
+  users: User[]
 }
 
-export const GET_CATEGORIES = gql`
-  query GetCategories {
-    categories {
+const GetUsersFragment = gql`
+  fragment GetUsersFragment on Query {
+    users {
       id
-      title
-      value
-      winnerId
-      nominees {
+      name
+      email
+      admin
+      selections {
         id
-        name
-        film
+        userId
+        categoryId
+        nomineeId
       }
     }
   }
+`
+
+export const GET_USERS = gql`
+  query GetUsers {
+    ...GetUsersFragment
+  }
+  ${GetUsersFragment}
+`
+
+export type GetCategoriesAndUsersRes = GetUsersRes & GetCategoriesRes
+
+export const GET_CATEGORIES_AND_USERS = gql`
+  query GetCategoriesAndUsers {
+    ...GetCategoriesFragment
+    ...GetUsersFragment
+  }
+  ${GetCategoriesFragment}
+  ${GetUsersFragment}
 `

@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react'
-import { User } from '../../App'
+import { User } from '../../graphql/shared-types'
 interface Props {
   user: User | undefined
   setToken: Dispatch<SetStateAction<string | null | undefined>>

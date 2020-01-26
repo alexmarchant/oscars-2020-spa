@@ -5,7 +5,6 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom'
-
 import { decode } from 'jsonwebtoken'
 import { client } from './index'
 import Layout from './components/Layout'
@@ -13,17 +12,9 @@ import Auth from './Screens/Auth'
 import Ballot from './Screens/Ballot'
 import LeaderBoard from './Screens/LeaderBoard'
 import ProtectedRoute from './components/ProtectedRoute'
+import { User } from './graphql/shared-types'
 
 const savedToken = localStorage.getItem('token')
-
-export interface User {
-  id: number
-  name: string
-  email: string
-  admin: boolean
-  createdAt: string
-  updatedAt: string
-}
 
 const App: React.FC = () => {
   const [token, setToken] = useState<string | null | undefined>(savedToken)

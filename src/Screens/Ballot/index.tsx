@@ -8,7 +8,6 @@ import {
 } from '@apollo/client'
 import { useLocation } from 'react-router-dom'
 import CategoryComponent from './Category'
-
 import { Category, Nominee, Selection } from '../../graphql/shared-types'
 import {
   GET_CATEGORIES_AND_MY_SELECTIONS,
