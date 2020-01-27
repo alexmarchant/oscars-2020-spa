@@ -53,6 +53,7 @@ const Ballot: React.FC = () => {
   // onClicks
   function isSelected(category: Category, nominee: Nominee): boolean {
     if (!data) return false
+    if (mode === Mode.Admin) return false
     return data.mySelections.some(
       selection =>
         selection.categoryId === category.id &&
