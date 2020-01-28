@@ -1,6 +1,7 @@
 import React from 'react'
 import { useQuery, useMutation, useSubscription } from '@apollo/client'
 import { useLocation } from 'react-router-dom'
+import { Container, Row } from 'react-bootstrap'
 import CategoryComponent from './Category'
 import { Category, Nominee } from '../../graphql/shared-types'
 import {
@@ -79,7 +80,7 @@ const Ballot: React.FC = () => {
   const onClick = mode === Mode.Admin ? setWinnerToggle : makeSelection
 
   return (
-    <div>
+    <Container>
       {data.categories.map(category => (
         <CategoryComponent
           key={category.id}
@@ -89,7 +90,7 @@ const Ballot: React.FC = () => {
           onClick={onClick}
         />
       ))}
-    </div>
+    </Container>
   )
 }
 

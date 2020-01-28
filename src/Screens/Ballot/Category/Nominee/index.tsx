@@ -1,4 +1,6 @@
 import React from 'react'
+import { Row, Col, Card, Image } from 'react-bootstrap'
+import { CheckCircle } from 'react-feather'
 import { Nominee, Category } from '../../../../graphql/shared-types'
 
 interface Props {
@@ -32,35 +34,57 @@ const NomineeComponent = ({
 
     let color = 'lightGrey'
 
-    if (selected) {
-      color = 'gold'
-    }
-
     if (winner) {
-      color = 'green'
+      return (
+        <Col className="col-auto">
+          <CheckCircle color="green" />
+        </Col>
+      )
     }
-
     if (loser) {
-      color = 'red'
+      return (
+        <Col className="col-auto">
+          <CheckCircle color="red" />
+        </Col>
+      )
     }
 
-    return color
+    if (selected) {
+      return (
+        <Col className="col-auto">
+          <CheckCircle color="gold" />
+        </Col>
+      )
+    }
+
+    return null
   }
 
   return (
-    <div>
-      <li
-        key={nominee.id}
+    <Col key={nominee.id} className="col-12 col-md-6 col-xl-4">
+      <Card
         style={{
-          backgroundColor: generateBackgroundColor(category, nominee),
           marginBottom: '5px',
           cursor: 'pointer',
         }}
         onClick={() => selectionHandler()}
       >
-        {nominee.name} - {nominee.film}
-      </li>
-    </div>
+        <Image
+          src="https://static01.nyt.com/images/2019/10/10/arts/10parasitecoverpix/merlin_162276381_35b982ba-822c-4914-98b6-083a213beaec-master495.jpg"
+          fluid
+        />
+        <Card.Body>
+          <Row>
+            <Col>
+              {nominee.name !== nominee.film
+                ? `${nominee.name} - ${nominee.film}`
+                : nominee.film}
+            </Col>
+            {generateBackgroundColor(category, nominee)}
+          </Row>
+        </Card.Body>
+      </Card>
+    </Col>
   )
 }
 

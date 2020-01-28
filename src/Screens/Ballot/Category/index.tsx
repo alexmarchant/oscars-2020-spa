@@ -1,4 +1,5 @@
 import React from 'react'
+import { Row } from 'react-bootstrap'
 import { Category, Nominee } from '../../../graphql/shared-types'
 import NomineeComponent from './Nominee'
 
@@ -16,25 +17,23 @@ const CategoryComponent = ({
   isWinner,
 }: Props) => {
   return (
-    <div>
-      <div key={category.id}>
-        <div>
-          {category.title} - {category.value}
-        </div>
-        <ul>
-          {category.nominees.map(nominee => (
-            <NomineeComponent
-              key={nominee.id}
-              category={category}
-              nominee={nominee}
-              isSelected={isSelected}
-              isWinner={isWinner}
-              onClick={onClick}
-            />
-          ))}
-        </ul>
-      </div>
-    </div>
+    <>
+      <Row>
+        {category.title} - {category.value}
+      </Row>
+      <Row key={category.id}>
+        {category.nominees.map(nominee => (
+          <NomineeComponent
+            key={nominee.id}
+            category={category}
+            nominee={nominee}
+            isSelected={isSelected}
+            isWinner={isWinner}
+            onClick={onClick}
+          />
+        ))}
+      </Row>
+    </>
   )
 }
 

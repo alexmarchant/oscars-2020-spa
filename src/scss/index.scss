@@ -1,0 +1,16 @@
+@import '../../node_modules/bootstrap/scss/functions';
+
+// Custom variables
+@import './user-variables';
+
+// Dashkit variables
+@import '../../node_modules/dashkit/variables';
+
+// Bootstrap core
+@import '../../node_modules/bootstrap/scss/bootstrap';
+
+// Dashkit core
+@import '../../node_modules/dashkit/dashkit';
+
+// Custom core
+@import './user';

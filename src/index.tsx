@@ -14,7 +14,9 @@ import {
   getMainDefinition,
 } from '@apollo/client'
 import { WebSocketLink } from '@apollo/link-ws'
-import './index.css'
+import './scss/index.scss'
+
+// import './index.css'
 
 const authMiddleware = new ApolloLink(
   (operation: Operation, forward: NextLink) => {
