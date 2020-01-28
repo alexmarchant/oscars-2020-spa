@@ -61,7 +61,7 @@ const NomineeComponent = ({
   }
 
   return (
-    <Col key={nominee.id} className="col-12 col-md-6 col-xl-4">
+    <Col key={nominee.id} className="col-12 col-md-6 col-xl-4 mb-4">
       <Card
         style={{
           marginBottom: '5px',
@@ -76,9 +76,10 @@ const NomineeComponent = ({
         <Card.Body>
           <Row>
             <Col>
-              {nominee.name !== nominee.film
-                ? `${nominee.name} - ${nominee.film}`
-                : nominee.film}
+              <h4 className="mb-2">{nominee.name}</h4>
+              {nominee.name !== nominee.film && (
+                <p className="small muted">{nominee.film}</p>
+              )}
             </Col>
             {generateBackgroundColor(category, nominee)}
           </Row>
