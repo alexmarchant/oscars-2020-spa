@@ -27,12 +27,10 @@ const NomineeComponent = ({
     })
   }
 
-  const generateBackgroundColor = (category: Category, nominee: Nominee) => {
+  const coloredCheckMark = (category: Category, nominee: Nominee) => {
     const selected = isSelected(category, nominee)
     const winner = isWinner(nominee)
     const loser = category.winnerId !== null && !winner && selected
-
-    let color = 'lightGrey'
 
     if (winner) {
       return (
@@ -78,10 +76,10 @@ const NomineeComponent = ({
             <Col>
               <h4 className="mb-2">{nominee.name}</h4>
               {nominee.name !== nominee.film && (
-                <p className="small muted">{nominee.film}</p>
+                <p className="small muted mb-0">{nominee.film}</p>
               )}
             </Col>
-            {generateBackgroundColor(category, nominee)}
+            {coloredCheckMark(category, nominee)}
           </Row>
         </Card.Body>
       </Card>

@@ -7,7 +7,7 @@ interface Props {
   mode: Mode
   onSubmit: (
     data: FormData,
-    event: React.BaseSyntheticEvent<object, any, any>,
+    event: React.BaseSyntheticEvent<object, any, any> | undefined,
   ) => Promise<void>
 }
 

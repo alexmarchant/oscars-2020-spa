@@ -1,7 +1,7 @@
 import React from 'react'
 import { useQuery, useMutation, useSubscription } from '@apollo/client'
 import { useLocation } from 'react-router-dom'
-import { Container, Row } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import CategoryComponent from './Category'
 import { Category, Nominee } from '../../graphql/shared-types'
 import {
@@ -79,17 +79,28 @@ const Ballot: React.FC = () => {
 
   const onClick = mode === Mode.Admin ? setWinnerToggle : makeSelection
 
+  const completedCategories: number = data.mySelections.length
+  const totalCategories: number = data.categories.length
+
   return (
-    <Container>
-      {data.categories.map(category => (
-        <CategoryComponent
-          key={category.id}
-          category={category}
-          isSelected={isSelected}
-          isWinner={isWinner}
-          onClick={onClick}
-        />
-      ))}
+    <Container className="mt-7">
+      <>
+        {data.categories.map(category => (
+          <CategoryComponent
+            key={category.id}
+            category={category}
+            isSelected={isSelected}
+            isWinner={isWinner}
+            onClick={onClick}
+          />
+        ))}
+        <div>
+          <p>
+            You have selected a winner for {completedCategories}/
+            {totalCategories} categories.
+          </p>
+        </div>
+      </>
     </Container>
   )
 }

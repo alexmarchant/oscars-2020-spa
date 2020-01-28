@@ -55,7 +55,10 @@ const Auth: React.FC<Props> = ({ setToken }) => {
     setToken(token)
   }, [token, setToken])
 
-  let onSubmit = mode === Mode.Login ? onLogin : onSignup
+  let onSubmit: (
+    data: FormData,
+    event: React.BaseSyntheticEvent<object, any, any>,
+  ) => Promise<void> = mode === Mode.Login ? onLogin : onSignup
 
   return (
     <div>

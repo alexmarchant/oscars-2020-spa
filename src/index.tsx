@@ -11,8 +11,8 @@ import {
   NextLink,
   concat,
   split,
-  getMainDefinition,
 } from '@apollo/client'
+import { getMainDefinition } from '@apollo/client/utilities'
 import { WebSocketLink } from '@apollo/link-ws'
 import './scss/index.scss'
 
