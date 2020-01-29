@@ -35,13 +35,17 @@ const Auth: React.FC<Props> = ({ setToken }) => {
 
   const token = loginRes?.data?.login || signupRes?.data?.signup
 
-  async function onLogin(data: FormData, event: BaseSyntheticEvent) {
-    event.preventDefault()
+  async function onLogin(data: FormData, event?: BaseSyntheticEvent) {
+    if (event) {
+      event.preventDefault()
+    }
     await login({ variables: { email: data.email, password: data.password } })
   }
 
-  async function onSignup(data: FormData, event: BaseSyntheticEvent) {
-    event.preventDefault()
+  async function onSignup(data: FormData, event?: BaseSyntheticEvent) {
+    if (event) {
+      event.preventDefault()
+    }
     await signup({
       variables: {
         name: data.name,
@@ -55,10 +59,7 @@ const Auth: React.FC<Props> = ({ setToken }) => {
     setToken(token)
   }, [token, setToken])
 
-  let onSubmit: (
-    data: FormData,
-    event: React.BaseSyntheticEvent<object, any, any>,
-  ) => Promise<void> = mode === Mode.Login ? onLogin : onSignup
+  let onSubmit = mode === Mode.Login ? onLogin : onSignup
 
   return (
     <div>

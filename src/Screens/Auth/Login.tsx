@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { BaseSyntheticEvent } from 'react'
 import { useForm } from 'react-hook-form'
 import { Mode, FormData } from './interface'
 import { Link } from 'react-router-dom'
@@ -7,7 +7,7 @@ interface Props {
   mode: Mode
   onSubmit: (
     data: FormData,
-    event: React.BaseSyntheticEvent<object, any, any> | undefined,
+    event?: BaseSyntheticEvent,
   ) => Promise<void>
 }
 
