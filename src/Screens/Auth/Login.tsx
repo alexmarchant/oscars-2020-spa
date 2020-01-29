@@ -2,7 +2,7 @@ import React, { BaseSyntheticEvent } from 'react'
 import { useForm } from 'react-hook-form'
 import { Mode, FormData } from './interface'
 import { Link } from 'react-router-dom'
-import { Button, FormGroup } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 
 interface Props {
   mode: Mode
@@ -15,8 +15,12 @@ const Login: React.FC<Props> = ({ mode, onSubmit }, props) => {
   return (
     <>
       <h1 className="display-4 text-center mb-3">Log In</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormGroup>
+      <Form
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        validated={!!(errors.email || errors.password)}
+      >
+        <Form.Group>
           <label htmlFor="email">Email</label>
           <input
             className="form-control"
@@ -25,9 +29,11 @@ const Login: React.FC<Props> = ({ mode, onSubmit }, props) => {
             ref={register({ required: true })}
             placeholder="name@address.com"
           />
-          {errors.email && <span>Email is required</span>}
-        </FormGroup>
-        <FormGroup>
+          <Form.Control.Feedback type="invalid">
+            {errors.email && <span>Email is required</span>}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group>
           <label htmlFor="name">Password</label>
           <input
             className="form-control"
@@ -36,12 +42,14 @@ const Login: React.FC<Props> = ({ mode, onSubmit }, props) => {
             ref={register({ required: true })}
             placeholder="Enter your password"
           />
-          {errors.password && <span>Password is required</span>}
-        </FormGroup>
-        <Button className="mb-3" variant="primary" block={true}>
+          <Form.Control.Feedback type="invalid">
+            {errors.password && <span>Password is required</span>}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Button className="mb-3" variant="primary" block={true} type="submit">
           Log In
         </Button>
-      </form>
+      </Form>
 
       <div className="text-center">
         <small className="text-muted text-center">

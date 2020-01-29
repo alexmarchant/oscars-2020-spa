@@ -2,7 +2,7 @@ import React, { BaseSyntheticEvent } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { Mode, FormData } from './interface'
-import { Button, FormGroup } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 
 interface Props {
   mode: Mode
@@ -15,8 +15,12 @@ const Signup: React.FC<Props> = ({ mode, onSubmit }) => {
   return (
     <>
       <h1 className="display-4 text-center mb-3">Sign Up</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormGroup>
+      <Form
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        validated={!!(errors.name || errors.email || errors.password)}
+      >
+        <Form.Group>
           <label htmlFor="name">Name</label>
           <input
             className="form-control"
@@ -26,8 +30,8 @@ const Signup: React.FC<Props> = ({ mode, onSubmit }) => {
             placeholder="First Last"
           />
           {errors.name && <span>Name is required</span>}
-        </FormGroup>
-        <FormGroup>
+        </Form.Group>
+        <Form.Group>
           <label htmlFor="email">Email</label>
           <input
             className="form-control"
@@ -37,8 +41,8 @@ const Signup: React.FC<Props> = ({ mode, onSubmit }) => {
             placeholder="name@address.com"
           />
           {errors.email && <span>Email is required</span>}
-        </FormGroup>
-        <FormGroup>
+        </Form.Group>
+        <Form.Group>
           <label htmlFor="name">Password</label>
           <input
             className="form-control"
@@ -48,11 +52,11 @@ const Signup: React.FC<Props> = ({ mode, onSubmit }) => {
             placeholder="Enter your password"
           />
           {errors.password && <span>Password is required</span>}
-        </FormGroup>
-        <Button className="mb-3" variant="primary" block={true}>
+        </Form.Group>
+        <Button className="mb-3" variant="primary" block={true} type="submit">
           Sign Up
         </Button>
-      </form>
+      </Form>
 
       <div className="text-center">
         <small className="text-muted text-center">
