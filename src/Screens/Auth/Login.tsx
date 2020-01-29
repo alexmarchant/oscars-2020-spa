@@ -48,10 +48,6 @@ const Login: React.FC<Props> = ({ onSubmit }) => {
             control={control}
             rules={{
               required: 'Required',
-              minLength: {
-                value: 8,
-                message: '8 character minimum',
-              },
             }}
             isInvalid={formState.isSubmitted && errors.password}
           />

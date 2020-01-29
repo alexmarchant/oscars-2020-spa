@@ -1,5 +1,6 @@
 import React, {
   useEffect,
+  useState,
   Dispatch,
   SetStateAction,
   BaseSyntheticEvent,
@@ -18,13 +19,14 @@ import {
   SignupRes,
   SignupVars,
 } from '../../graphql/mutations'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Alert } from 'react-bootstrap'
 
 interface Props {
   setToken: Dispatch<SetStateAction<string | null | undefined>>
 }
 
 const Auth: React.FC<Props> = ({ setToken }) => {
+  const [error, setError] = useState<string | undefined>()
   let location = useLocation()
 
   const { pathname } = location
@@ -36,24 +38,38 @@ const Auth: React.FC<Props> = ({ setToken }) => {
 
   const token = loginRes?.data?.login || signupRes?.data?.signup
 
+  function postError(err: Error) {
+    const cleanedError = err.message.replace('GraphQL error: ', '')
+    setError(cleanedError)
+    console.error(err)
+  }
+
   async function onLogin(data: FormData, event?: BaseSyntheticEvent) {
     if (event) {
       event.preventDefault()
     }
-    await login({ variables: { email: data.email, password: data.password } })
+    try {
+      await login({ variables: { email: data.email, password: data.password } })
+    } catch (err) {
+      postError(err)
+    }
   }
 
   async function onSignup(data: FormData, event?: BaseSyntheticEvent) {
     if (event) {
       event.preventDefault()
     }
-    await signup({
-      variables: {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      },
-    })
+    try {
+      await signup({
+        variables: {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+        },
+      })
+    } catch (err) {
+      postError(err)
+    }
   }
 
   useEffect(() => {
@@ -65,6 +81,15 @@ const Auth: React.FC<Props> = ({ setToken }) => {
   return (
     <div className="h-100 justify-content-center d-flex">
       <Container>
+        {error && (
+          <Alert
+            className="position-absolute"
+            style={{ top: 10, left: 10, right: 10 }}
+            variant="danger"
+          >
+            {error}
+          </Alert>
+        )}
         <Row className="justify-content-center align-items-center h-100">
           <Col xs={12} md={5} xl={4} className="my-5">
             <Route path="/login" match>
