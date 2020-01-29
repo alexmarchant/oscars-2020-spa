@@ -29,7 +29,9 @@ const Signup: React.FC<Props> = ({ mode, onSubmit }) => {
             ref={register({ required: true })}
             placeholder="First Last"
           />
-          {errors.name && <span>Name is required</span>}
+          <Form.Control.Feedback type="invalid">
+            {errors.name && <span>Name is required</span>}
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group>
           <label htmlFor="email">Email</label>
@@ -40,7 +42,9 @@ const Signup: React.FC<Props> = ({ mode, onSubmit }) => {
             ref={register({ required: true })}
             placeholder="name@address.com"
           />
-          {errors.email && <span>Email is required</span>}
+          <Form.Control.Feedback type="invalid">
+            {errors.email && <span>Email is required</span>}
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group>
           <label htmlFor="name">Password</label>
@@ -51,7 +55,9 @@ const Signup: React.FC<Props> = ({ mode, onSubmit }) => {
             ref={register({ required: true })}
             placeholder="Enter your password"
           />
-          {errors.password && <span>Password is required</span>}
+          <Form.Control.Feedback type="invalid">
+            {errors.password && <span>Password is required</span>}
+          </Form.Control.Feedback>
         </Form.Group>
         <Button className="mb-3" variant="primary" block={true} type="submit">
           Sign Up
