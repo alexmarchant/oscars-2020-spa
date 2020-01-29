@@ -16,8 +16,6 @@ import { getMainDefinition } from '@apollo/client/utilities'
 import { WebSocketLink } from '@apollo/link-ws'
 import './scss/index.scss'
 
-// import './index.css'
-
 const authMiddleware = new ApolloLink(
   (operation: Operation, forward: NextLink) => {
     operation.setContext(() => {
