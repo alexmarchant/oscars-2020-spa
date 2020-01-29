@@ -10,7 +10,7 @@ interface Props {
 
 const Layout: React.FC<Props> = ({ children, user, setToken }) => {
   return (
-    <div>
+    <div className="h-100">
       {user && <Header user={user} setToken={setToken} />}
       {children}
     </div>
