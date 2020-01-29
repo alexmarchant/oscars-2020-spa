@@ -14,7 +14,7 @@ const Login: React.FC<Props> = ({ mode, onSubmit }, props) => {
 
   return (
     <>
-      <h1 className="display-4 text-center mb-3">Sign In</h1>
+      <h1 className="display-4 text-center mb-3">Log In</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <label htmlFor="email">Email</label>
@@ -39,7 +39,7 @@ const Login: React.FC<Props> = ({ mode, onSubmit }, props) => {
           {errors.password && <span>Password is required</span>}
         </FormGroup>
         <Button className="mb-3" variant="primary" block={true}>
-          Sign In
+          Log In
         </Button>
       </form>
 
