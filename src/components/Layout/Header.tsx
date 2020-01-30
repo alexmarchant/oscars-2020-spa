@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Card, ProgressBar } from 'react-bootstrap'
 import { User } from '../../graphql/shared-types'
 interface Props {
   user: User | undefined
@@ -8,6 +8,8 @@ interface Props {
 }
 
 const Header: React.FC<Props> = ({ user, setToken }) => {
+  const totalCatgories: number = 24
+  const completedCategories: number = 16
   return user ? (
     <Container className="fixed-top bg-white">
       <Row>
@@ -29,6 +31,10 @@ const Header: React.FC<Props> = ({ user, setToken }) => {
                 </Link>
               </Col>
             </Row>
+            <ProgressBar
+              now={60}
+              label={`${completedCategories}/${totalCatgories}`}
+            />
           </div>
         </Col>
       </Row>

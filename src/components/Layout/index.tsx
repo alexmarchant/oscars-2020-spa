@@ -12,7 +12,7 @@ const Layout: React.FC<Props> = ({ children, user, setToken }) => {
   return (
     <div className="h-100">
       {user && <Header user={user} setToken={setToken} />}
-      {children}
+      <div className="mt-7">{children}</div>
     </div>
   )
 }

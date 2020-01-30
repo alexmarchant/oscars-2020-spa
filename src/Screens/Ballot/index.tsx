@@ -83,7 +83,7 @@ const Ballot: React.FC = () => {
   const totalCategories: number = data.categories.length
 
   return (
-    <Container className="mt-7">
+    <Container>
       <>
         {data.categories.map(category => (
           <CategoryComponent
