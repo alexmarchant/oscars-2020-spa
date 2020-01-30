@@ -1,5 +1,6 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction, useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { Store } from '../../Store'
 import { Container, Row, Col, Card, ProgressBar } from 'react-bootstrap'
 import { User } from '../../graphql/shared-types'
 interface Props {
@@ -8,8 +9,16 @@ interface Props {
 }
 
 const Header: React.FC<Props> = ({ user, setToken }) => {
+  const data: any = useContext(Store)
+
+  if (!data) return <div>...Loading</div>
+
+  const completedCategories: number = data && data.mySelections.length
   const totalCatgories: number = 24
-  const completedCategories: number = 16
+  const loadingBarNow: number = Math.ceil((completedCategories / 24) * 100)
+
+  console.log({ loadingBarNow })
+
   return user ? (
     <Container className="fixed-top bg-white">
       <Row>
@@ -32,7 +41,7 @@ const Header: React.FC<Props> = ({ user, setToken }) => {
               </Col>
             </Row>
             <ProgressBar
-              now={60}
+              now={loadingBarNow}
               label={`${completedCategories}/${totalCatgories}`}
             />
           </div>
