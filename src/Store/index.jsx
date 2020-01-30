@@ -23,9 +23,4 @@ const SelectionsProvider = props => {
   return <Store.Provider value={data}>{props.children}</Store.Provider>
 }
 
-const Child = () => {
-  const hook = React.useContext(Store)
-  return <div>{hook.text}</div>
-}
-
-export { SelectionsProvider, Store, Child }
+export { SelectionsProvider, Store }

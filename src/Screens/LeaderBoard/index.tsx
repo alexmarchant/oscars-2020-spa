@@ -1,5 +1,6 @@
 import React from 'react'
 import { useQuery, useSubscription } from '@apollo/client'
+import { Table, Container } from 'react-bootstrap'
 import {
   GET_CATEGORIES_AND_USERS,
   GetCategoriesAndUsersRes,
@@ -52,15 +53,40 @@ const LeaderBoard: React.FC = () => {
   })
 
   return (
-    <ul>
-      {sortedUsers.map(user => {
-        return (
-          <li key={user.id}>
-            {user.name} - {userScoreMap[user.id]}
-          </li>
-        )
-      })}
-    </ul>
+    <Container>
+      <Table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Correct</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortedUsers.map((user, idx) => {
+            return (
+              <tr key={user.id}>
+                <td>{idx + 1}</td>
+                <td>{user.name}</td>
+                <td>12/24</td>
+                <td>{userScoreMap[user.id]}</td>
+              </tr>
+            )
+          })
+          // <ul>
+          //   {sortedUsers.map(user => {
+          //     return (
+          //       <li key={user.id}>
+          //         {user.name} - {userScoreMap[user.id]}
+          //       </li>
+          //     )
+          //   })}
+          // </ul>
+          }
+        </tbody>
+      </Table>
+    </Container>
   )
 }
 

@@ -77,6 +77,14 @@ const Ballot: React.FC = () => {
     setWinner({ variables })
   }
 
+  function categoryComplete(category: Category): boolean {
+    if (!data) return false
+
+    return data.mySelections.some(
+      selection => selection.categoryId === category.id,
+    )
+  }
+
   const onClick = mode === Mode.Admin ? setWinnerToggle : makeSelection
 
   const completedCategories: number = data.mySelections.length
@@ -91,12 +99,13 @@ const Ballot: React.FC = () => {
             category={category}
             isSelected={isSelected}
             isWinner={isWinner}
+            categoryComplete={categoryComplete}
             onClick={onClick}
           />
         ))}
         <div>
           <p>
-            You have selected a winner for {completedCategories}/
+            You have made a selection for {completedCategories}/
             {totalCategories} categories.
           </p>
         </div>

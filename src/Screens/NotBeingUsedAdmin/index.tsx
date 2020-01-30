@@ -35,6 +35,10 @@ const Admin: React.FC = () => {
     return data.categories.some(category => category.winnerId === nominee.id)
   }
 
+  function categoryComplete(category: Category): boolean {
+    return false
+  }
+
   if (loading || !data) return <p>Loading...</p>
   if (error) return <p>{error.message}</p>
 
@@ -46,6 +50,7 @@ const Admin: React.FC = () => {
           category={category}
           isSelected={isSelected}
           isWinner={isWinner}
+          categoryComplete={categoryComplete}
           onClick={setWinnerToggle}
         />
       ))}

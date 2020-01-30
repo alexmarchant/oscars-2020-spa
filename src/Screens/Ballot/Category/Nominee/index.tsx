@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row, Col, Card, Image } from 'react-bootstrap'
-import { CheckCircle } from 'react-feather'
+import { CheckCircle, XCircle } from 'react-feather'
 import { Nominee, Category } from '../../../../graphql/shared-types'
 
 interface Props {
@@ -33,40 +33,42 @@ const NomineeComponent = ({
     const loser = category.winnerId !== null && !winner && selected
 
     if (winner) {
-      return (
-        <Col className="col-auto">
-          <CheckCircle color="green" />
-        </Col>
-      )
+      return <CheckCircle color="green" />
     }
     if (loser) {
-      return (
-        <Col className="col-auto">
-          <CheckCircle color="red" />
-        </Col>
-      )
+      return <XCircle color="red" />
     }
 
-    if (selected) {
-      return (
-        <Col className="col-auto">
-          <CheckCircle color="gold" />
-        </Col>
-      )
-    }
+    // if (selected) {
+    //   return (
+    //     <Col className="col-auto">
+    //       <CheckCircle color="gold" />
+    //     </Col>
+    //   )
+    // }
 
     return null
   }
 
+  const styles: {
+    marginBottom: string
+    cursor: string
+    border: string
+  } = {
+    marginBottom: '5px',
+    cursor: 'pointer',
+    border: 'none',
+  }
+
+  console.log(isSelected(category, nominee), nominee.film)
+
+  if (isSelected(category, nominee)) {
+    styles.border = '2px solid gold'
+  }
+
   return (
-    <Col key={nominee.id} className="col-12 col-md-6 col-xl-4 mb-4">
-      <Card
-        style={{
-          marginBottom: '5px',
-          cursor: 'pointer',
-        }}
-        onClick={() => selectionHandler()}
-      >
+    <Col key={nominee.id} className="col-6 col-md-6 col-xl-2 mb-4">
+      <Card style={styles} onClick={() => selectionHandler()}>
         <Image
           src="https://static01.nyt.com/images/2019/10/10/arts/10parasitecoverpix/merlin_162276381_35b982ba-822c-4914-98b6-083a213beaec-master495.jpg"
           fluid
