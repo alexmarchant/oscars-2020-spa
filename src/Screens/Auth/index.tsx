@@ -113,7 +113,7 @@ const Auth: React.FC<Props> = ({ setToken }) => {
             <Route path="/signup" match>
               <Signup mode={mode} onSubmit={onSubmit} />
             </Route>
-            <Route path="/" exact component={() => <Redirect to="/ballot" />} />
+            <Route path="/" exact component={() => <Redirect to="/signup" />} />
           </Col>
         </Row>
       </Container>
