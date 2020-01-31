@@ -21,6 +21,7 @@ const CategoryComponent = ({
   onClick,
 }: Props) => {
   const [open, setOpen] = React.useState(false)
+  const showImage = category.nominees.every(nom => !!nom.imageURL)
   return (
     <>
       <Row>
@@ -49,6 +50,7 @@ const CategoryComponent = ({
               isSelected={isSelected}
               isWinner={isWinner}
               onClick={onClick}
+              showImage={showImage}
             />
           ))}
         </Row>

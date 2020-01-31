@@ -9,6 +9,7 @@ interface Props {
   isSelected: (category: Category, nominee: Nominee) => boolean
   isWinner: (nominee: Nominee) => boolean
   onClick: Function
+  showImage: boolean
 }
 
 const NomineeComponent = ({
@@ -17,6 +18,7 @@ const NomineeComponent = ({
   isSelected,
   isWinner,
   category,
+  showImage,
 }: Props) => {
   const selectionHandler = () => {
     onClick({
@@ -39,14 +41,6 @@ const NomineeComponent = ({
       return <XCircle color="red" />
     }
 
-    // if (selected) {
-    //   return (
-    //     <Col className="col-auto">
-    //       <CheckCircle color="gold" />
-    //     </Col>
-    //   )
-    // }
-
     return null
   }
 
@@ -67,7 +61,7 @@ const NomineeComponent = ({
   return (
     <Col key={nominee.id} className="col-6 col-md-3 col-xl-2 mb-4">
       <Card style={styles} onClick={() => selectionHandler()}>
-        {nominee.imageURL && <Image
+        {showImage && <Image
           src={nominee.imageURL}
           fluid
         />}
