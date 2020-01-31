@@ -43,7 +43,7 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <Layout user={user} setToken={setToken}>
+      <Layout user={user} setToken={setToken} tokenSaved={tokenSaved}>
         <Switch>
           <ProtectedRoute path="/ballot" authenticated={tokenSaved}>
             <Ballot />
