@@ -2,7 +2,7 @@ import React, { BaseSyntheticEvent } from 'react'
 import { useForm, Controller, ErrorMessage } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { Mode, FormData } from './interface'
-import { Button, Form, Card } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 import { emailRegex } from '../../helpers'
 
 interface Props {
