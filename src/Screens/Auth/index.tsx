@@ -19,7 +19,7 @@ import {
   SignupRes,
   SignupVars,
 } from '../../graphql/mutations'
-import { Container, Row, Col, Alert } from 'react-bootstrap'
+import { Container, Row, Col, Alert, Card } from 'react-bootstrap'
 
 interface Props {
   setToken: Dispatch<SetStateAction<string | null | undefined>>
@@ -80,7 +80,7 @@ const Auth: React.FC<Props> = ({ setToken }) => {
 
   return (
     <div className="h-100 justify-content-center d-flex">
-      <Container>
+      <Container className="h-100">
         {error && (
           <Alert
             className="position-absolute"
@@ -90,7 +90,22 @@ const Auth: React.FC<Props> = ({ setToken }) => {
             {error}
           </Alert>
         )}
-        <Row className="justify-content-center align-items-center h-100">
+        <Row className="justify-content-center align-items-center">
+          <Col xs={12} md={5} xl={4}>
+            <Card body className="justify-content-center">
+              <h3 className="text-center">Instructions</h3>
+              <ol>
+                <li>Create Account/Sign in with email and password</li>
+                <li>
+                  Select one winner for each category (points are weighted)
+                </li>
+                <li>Send $5 to Alex Marchant (@amarchant) on Venmo</li>
+              </ol>
+            </Card>
+          </Col>
+        </Row>
+
+        <Row className="justify-content-center align-items-center">
           <Col xs={12} md={5} xl={4} className="my-5">
             <Route path="/login" match>
               <Login mode={mode} onSubmit={onSubmit} />
