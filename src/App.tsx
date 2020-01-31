@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom'
 import { decode } from 'jsonwebtoken'
 import { client } from './index'
-import { SelectionsProvider } from './Store'
 import Layout from './components/Layout'
 import Auth from './Screens/Auth'
 import Ballot from './Screens/Ballot'
@@ -44,32 +43,30 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <SelectionsProvider>
-        <Layout user={user} setToken={setToken}>
-          <Switch>
-            <ProtectedRoute path="/ballot" authenticated={tokenSaved}>
-              <Ballot />
-            </ProtectedRoute>
-            <ProtectedRoute
-              path="/admin"
-              authenticated={!!(tokenSaved && user && user.admin)}
-            >
-              <Ballot />
-            </ProtectedRoute>
-            <ProtectedRoute path="/leaderboard" authenticated={tokenSaved}>
-              <LeaderBoard />
-            </ProtectedRoute>
+      <Layout user={user} setToken={setToken}>
+        <Switch>
+          <ProtectedRoute path="/ballot" authenticated={tokenSaved}>
+            <Ballot />
+          </ProtectedRoute>
+          <ProtectedRoute
+            path="/admin"
+            authenticated={!!(tokenSaved && user && user.admin)}
+          >
+            <Ballot />
+          </ProtectedRoute>
+          <ProtectedRoute path="/leaderboard" authenticated={tokenSaved}>
+            <LeaderBoard />
+          </ProtectedRoute>
 
-            <Route path="/">
-              {tokenSaved ? (
-                <Redirect to="/ballot" />
-              ) : (
-                <Auth setToken={setToken} />
-              )}
-            </Route>
-          </Switch>
-        </Layout>
-      </SelectionsProvider>
+          <Route path="/">
+            {tokenSaved ? (
+              <Redirect to="/ballot" />
+            ) : (
+              <Auth setToken={setToken} />
+            )}
+          </Route>
+        </Switch>
+      </Layout>
     </Router>
   )
 }

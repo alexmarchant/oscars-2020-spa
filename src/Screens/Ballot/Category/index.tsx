@@ -25,10 +25,10 @@ const CategoryComponent = ({
     <>
       <Row>
         <Col>
-          <div className="header-body my-4 py-2">
+          <div className="header-body my-2 py-2">
             <Row onClick={() => setOpen(!open)} style={{ cursor: 'pointer' }}>
               <Col>
-                <h1 className="header-title mb-2">{category.title}</h1>
+                <h3 className="header-title mb-2">{category.title}</h3>
                 <h6 className="header-pretitle">{category.value} points</h6>
               </Col>
               <Col className="col-auto">
@@ -40,7 +40,7 @@ const CategoryComponent = ({
       </Row>
 
       <Collapse in={open}>
-        <Row className="justify-content-md-center">
+        <Row className="justify-content-md-start">
           {category.nominees.map(nominee => (
             <NomineeComponent
               key={nominee.id}

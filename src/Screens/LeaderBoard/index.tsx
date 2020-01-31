@@ -25,6 +25,20 @@ function userScore(selections: Selection[], categories: Category[]): number {
   }, 0)
 }
 
+function userCorrect(selections: Selection[], categories: Category[]): number {
+  return categories.reduce((acc: number, category: Category): number => {
+    const selection = selections.find(
+      selection => selection.categoryId === category.id,
+    )
+    if (!selection) return acc
+    if (selection.nomineeId === category.winnerId) {
+      return acc + 1
+    } else {
+      return acc
+    }
+  }, 0)
+}
+
 const LeaderBoard: React.FC = () => {
   const { loading, error, data } = useQuery<GetCategoriesAndUsersRes>(
     GET_CATEGORIES_AND_USERS,
@@ -44,6 +58,17 @@ const LeaderBoard: React.FC = () => {
     },
     {} as Record<number, number>,
   )
+  const userCorrectMap: Record<number, number> = data.users.reduce(
+    (acc, user) => {
+      if (!user.selections) {
+        throw new Error('Missing selections')
+      }
+      acc[user.id] = userCorrect(user.selections, data.categories)
+      return acc
+    },
+    {} as Record<number, number>,
+  )
+
   const sortedUsers = data.users.concat().sort((a, b) => {
     const aScore = userScoreMap[a.id]
     const bScore = userScoreMap[b.id]
@@ -69,21 +94,11 @@ const LeaderBoard: React.FC = () => {
               <tr key={user.id}>
                 <td>{idx + 1}</td>
                 <td>{user.name}</td>
-                <td>12/24</td>
+                <td>{userCorrectMap[user.id]}</td>
                 <td>{userScoreMap[user.id]}</td>
               </tr>
             )
-          })
-          // <ul>
-          //   {sortedUsers.map(user => {
-          //     return (
-          //       <li key={user.id}>
-          //         {user.name} - {userScoreMap[user.id]}
-          //       </li>
-          //     )
-          //   })}
-          // </ul>
-          }
+          })}
         </tbody>
       </Table>
     </Container>
