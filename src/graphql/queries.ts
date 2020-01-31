@@ -16,6 +16,7 @@ const GetCategoriesFragment = gql`
         id
         name
         film
+        imageURL
       }
     }
   }

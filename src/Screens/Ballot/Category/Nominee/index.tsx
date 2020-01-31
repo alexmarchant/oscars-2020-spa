@@ -67,10 +67,10 @@ const NomineeComponent = ({
   return (
     <Col key={nominee.id} className="col-6 col-md-3 col-xl-2 mb-4">
       <Card style={styles} onClick={() => selectionHandler()}>
-        <Image
-          src="https://static01.nyt.com/images/2019/10/10/arts/10parasitecoverpix/merlin_162276381_35b982ba-822c-4914-98b6-083a213beaec-master495.jpg"
+        {nominee.imageURL && <Image
+          src={nominee.imageURL}
           fluid
-        />
+        />}
         <Card.Body>
           <Row>
             <Col>

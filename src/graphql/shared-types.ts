@@ -2,6 +2,7 @@ export interface Nominee {
   id: number
   name: string
   film: string
+  imageURL?: string
 }
 
 export interface Category {
