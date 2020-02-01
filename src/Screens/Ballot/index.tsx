@@ -121,7 +121,7 @@ const Ballot: React.FC = () => {
             onClick={onClick}
           />
         ))}
-        <div>
+        <div className="mb-5">
           <p>
             You have made a selection for {completedCategories}/
             {totalCategories} categories.
