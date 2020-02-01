@@ -36,6 +36,7 @@ const GetUsersFragment = gql`
       name
       email
       admin
+      paid
       selections {
         id
         userId

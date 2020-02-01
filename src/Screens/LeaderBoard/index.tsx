@@ -10,6 +10,7 @@ import {
   CategoryUpdatedRes,
 } from '../../graphql/subscriptions'
 import { Category, Selection } from '../../graphql/shared-types'
+import { Check } from 'react-feather'
 
 function userScore(selections: Selection[], categories: Category[]): number {
   return categories.reduce((acc: number, category: Category): number => {
@@ -70,6 +71,10 @@ const LeaderBoard: React.FC = () => {
   )
 
   const sortedUsers = data.users.concat().sort((a, b) => {
+    // Put people who didn't pay at bottom
+    if (a.paid && !b.paid) return -1
+    if (!a.paid && b.paid) return 1
+    // Sort by score if they paid
     const aScore = userScoreMap[a.id]
     const bScore = userScoreMap[b.id]
     if (aScore > bScore) return -1
@@ -86,6 +91,8 @@ const LeaderBoard: React.FC = () => {
             <th>Name</th>
             <th>Correct</th>
             <th>Score</th>
+            <th>Ballot</th>
+            <th>Paid</th>
           </tr>
         </thead>
         <tbody>
@@ -96,6 +103,8 @@ const LeaderBoard: React.FC = () => {
                 <td>{user.name}</td>
                 <td>{userCorrectMap[user.id]}</td>
                 <td>{userScoreMap[user.id]}</td>
+                <td>{user.selections?.length === data.categories.length && <Check />}</td>
+                <td>{user.paid && <Check />}</td>
               </tr>
             )
           })}
