@@ -1,20 +1,23 @@
-import React from 'react'
+import React, { BaseSyntheticEvent } from 'react'
 import { useQuery, useMutation, useSubscription } from '@apollo/client'
 import { useLocation } from 'react-router-dom'
-import { Container } from 'react-bootstrap'
+import { Container, FormCheck } from 'react-bootstrap'
 import CategoryComponent from './Category'
 import { Category, Nominee } from '../../graphql/shared-types'
 import {
-  GET_CATEGORIES_AND_MY_SELECTIONS,
-  GetCategoriesAndMySelectionsRes,
+  GET_CATEGORIES_AND_MY_SELECTIONS_AND_ME,
+  GetCategoriesAndMySelectionsAndMeRes,
 } from '../../graphql/queries'
 import {
   MAKE_SELECTION,
   SET_WINNER,
+  UPDATE_USER,
   MakeSelectionRes,
   MakeSelectionVars,
+  UpdateUserRes,
   SetWinnerRes,
   SetWinnerVars,
+  UpdateUserVars,
   makeSelectionCallback,
 } from '../../graphql/mutations'
 import {
@@ -34,9 +37,9 @@ const Ballot: React.FC = () => {
 
   const mode: Mode = pathname === '/admin' ? Mode.Admin : Mode.NonAdmin
 
-  const { loading, error, data } = useQuery<GetCategoriesAndMySelectionsRes>(
-    GET_CATEGORIES_AND_MY_SELECTIONS,
-  )
+  const { loading, error, data } = useQuery<
+    GetCategoriesAndMySelectionsAndMeRes
+  >(GET_CATEGORIES_AND_MY_SELECTIONS_AND_ME)
 
   const [makeSelection] = useMutation<MakeSelectionRes, MakeSelectionVars>(
     MAKE_SELECTION,
@@ -44,12 +47,15 @@ const Ballot: React.FC = () => {
   )
 
   const [setWinner] = useMutation<SetWinnerRes, SetWinnerVars>(SET_WINNER)
+  const [updateUser] = useMutation<UpdateUserRes, UpdateUserVars>(UPDATE_USER)
 
   useSubscription<CategoryUpdatedRes>(CATEGORY_UPDATED)
 
   if (loading || !data) return <p>Loading...</p>
 
   if (error) return <p>{error.message}</p>
+
+  console.log(data)
 
   // onClicks
   function isSelected(category: Category, nominee: Nominee): boolean {
@@ -90,6 +96,18 @@ const Ballot: React.FC = () => {
   const completedCategories: number = data.mySelections.length
   const totalCategories: number = data.categories.length
 
+  const handleCheckChange = (e: BaseSyntheticEvent) => {
+    const updateValue = !e.target.checked
+
+    console.log(!updateValue)
+
+    updateUser({
+      variables: {
+        value: !updateValue,
+      },
+    })
+  }
+
   return (
     <Container>
       <>
@@ -108,6 +126,11 @@ const Ballot: React.FC = () => {
             You have made a selection for {completedCategories}/
             {totalCategories} categories.
           </p>
+          <FormCheck
+            checked={data.me.paid}
+            onChange={handleCheckChange}
+            label="Send @alexmarchant $5 on Venmo"
+          />
         </div>
       </>
     </Container>

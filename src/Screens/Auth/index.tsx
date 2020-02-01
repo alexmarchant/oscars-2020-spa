@@ -92,7 +92,7 @@ const Auth: React.FC<Props> = ({ setToken }) => {
         )}
         <Row className="justify-content-center align-items-center">
           <Col xs={12} md={5} xl={4}>
-            <Card body className="justify-content-center">
+            <Card body className="git justify-content-center">
               <h3 className="text-center">Instructions</h3>
               <ol>
                 <li>Create Account/Sign in with email and password</li>
@@ -113,7 +113,7 @@ const Auth: React.FC<Props> = ({ setToken }) => {
             <Route path="/signup" match>
               <Signup mode={mode} onSubmit={onSubmit} />
             </Route>
-            <Route path="/" exact component={() => <Redirect to="/signup" />} />
+            <Route path="/" exact component={() => <Redirect to="/ballot" />} />
           </Col>
         </Row>
       </Container>

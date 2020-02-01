@@ -3,14 +3,16 @@ import { Link, useLocation } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 import { Container, Row, Col, ProgressBar } from 'react-bootstrap'
 import { User } from '../../graphql/shared-types'
-import { GET_CATEGORIES_AND_MY_SELECTIONS } from '../../graphql/queries'
+import { GET_CATEGORIES_AND_MY_SELECTIONS_AND_ME } from '../../graphql/queries'
 interface Props {
   user: User | undefined
   setToken: Dispatch<SetStateAction<string | null | undefined>>
 }
 
 const Header: React.FC<Props> = ({ user, setToken }) => {
-  const { loading, error, data } = useQuery(GET_CATEGORIES_AND_MY_SELECTIONS)
+  const { loading, error, data } = useQuery(
+    GET_CATEGORIES_AND_MY_SELECTIONS_AND_ME,
+  )
 
   let location = useLocation()
 

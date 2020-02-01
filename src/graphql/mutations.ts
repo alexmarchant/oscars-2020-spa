@@ -114,3 +114,25 @@ export const SIGNUP = gql`
     signup(name: $name, email: $email, password: $password)
   }
 `
+
+export interface UpdateUserRes {
+  id: number
+  name: string
+  email: string
+  paid: boolean
+}
+
+export interface UpdateUserVars {
+  value: boolean
+}
+
+export const UPDATE_USER = gql`
+  mutation UpdateUser($value: Boolean!) {
+    updateUser(value: $value) {
+      id
+      name
+      email
+      paid
+    }
+  }
+`

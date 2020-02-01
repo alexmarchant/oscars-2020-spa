@@ -25,6 +25,7 @@ export interface User {
   name: string
   email: string
   admin: boolean
+  paid: boolean
   createdAt: string
   updatedAt: string
   selections?: Selection[]
