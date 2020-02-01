@@ -129,7 +129,7 @@ const Ballot: React.FC = () => {
           <FormCheck
             checked={data.me.paid}
             onChange={handleCheckChange}
-            label="Send @alexmarchant $5 on Venmo"
+            label="Send @amarchant $5 on Venmo"
           />
         </div>
       </>
