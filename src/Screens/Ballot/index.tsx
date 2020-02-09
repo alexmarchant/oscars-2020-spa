@@ -1,7 +1,7 @@
 import React, { BaseSyntheticEvent } from 'react'
 import { useQuery, useMutation, useSubscription } from '@apollo/client'
 import { useLocation } from 'react-router-dom'
-import { Container, FormCheck } from 'react-bootstrap'
+import { Container, FormCheck, Alert } from 'react-bootstrap'
 import CategoryComponent from './Category'
 import { Category, Nominee } from '../../graphql/shared-types'
 import {
@@ -9,11 +9,8 @@ import {
   GetCategoriesAndMySelectionsAndMeRes,
 } from '../../graphql/queries'
 import {
-  MAKE_SELECTION,
   SET_WINNER,
   UPDATE_USER,
-  MakeSelectionRes,
-  MakeSelectionVars,
   UpdateUserRes,
   SetWinnerRes,
   SetWinnerVars,
@@ -41,10 +38,7 @@ const Ballot: React.FC = () => {
     GetCategoriesAndMySelectionsAndMeRes
   >(GET_CATEGORIES_AND_MY_SELECTIONS_AND_ME)
 
-  const [makeSelection] = useMutation<MakeSelectionRes, MakeSelectionVars>(
-    MAKE_SELECTION,
-    { update: makeSelectionCallback },
-  )
+  const makeSelection = () => {}
 
   const [setWinner] = useMutation<SetWinnerRes, SetWinnerVars>(SET_WINNER)
   const [updateUser] = useMutation<UpdateUserRes, UpdateUserVars>(UPDATE_USER)
@@ -111,6 +105,7 @@ const Ballot: React.FC = () => {
   return (
     <Container>
       <>
+        <Alert variant="warning">Voting is now disabled. Good luck!</Alert>
         {data.categories.map(category => (
           <CategoryComponent
             key={category.id}
