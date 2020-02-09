@@ -15,7 +15,6 @@ import {
   SetWinnerRes,
   SetWinnerVars,
   UpdateUserVars,
-  makeSelectionCallback,
 } from '../../graphql/mutations'
 import {
   CATEGORY_UPDATED,
@@ -91,15 +90,16 @@ const Ballot: React.FC = () => {
   const totalCategories: number = data.categories.length
 
   const handleCheckChange = (e: BaseSyntheticEvent) => {
-    const updateValue = !e.target.checked
+    return
+    // const updateValue = !e.target.checked
 
-    console.log(!updateValue)
+    // console.log(!updateValue)
 
-    updateUser({
-      variables: {
-        value: !updateValue,
-      },
-    })
+    // updateUser({
+    //   variables: {
+    //     value: !updateValue,
+    //   },
+    // })
   }
 
   return (
